@@ -1,0 +1,14 @@
+1.将aml_config拷贝到 服务器 根目录,即可启动
+
+2.配置文件外置目录参见：
+	spring.xml,
+		属性bean:configProperties,
+			路径：file:${config.home.dir}/ssm_configs/
+
+3.外置文件目录说明
+	ssm_configs\
+	|----dbconfig\
+	|----|---database.properties		--数据库配置
+	|----other\
+	|----|---other.properties			--配置
+    |----logback.xml                    --日志配置

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>上海黄金交易国际中心</title>
+
+    <link th:include="/user/statics :: globalcssandjs" />
+</head>
+<body>
+<div class="page-container">
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <!--<div class="col-md-5">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <h4>消息提醒</h4>
+                            <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse" data-target="#notification"></span>
+                        </div>
+                        <div class="portlet-body clearfix collapse in" id="notification">
+                            <ul class="fuc-list">
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-md-5">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <h4><a th:href="@{/amldatabase/queryList.htm}">常用功能</a> <a th:href="@{/amlsurvey/queryList.htm}">常用功能</a> <a th:href="@{/risklevelevaluate/queryList.htm}">常用功能</a></h4>
+                            <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse" data-target="#commonFunctions"></span>
+                        </div>
+                        <div class="portlet-body clearfix collapse in" id="commonFunctions">
+                            <table id="funcList"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    //首页收藏列表
+    $('#funcList').bootstrapTable({
+        columns: [{
+            field: 'num',
+            title: '序号'
+        }, {
+            field: 'name',
+            title: '功能名称',
+            formatter: function (value, row, index) {
+                return "<a href='javascript:void(0);' onclick='linkUrl(\""+row.name+"\",\""+row.url+"\")'>" + value + "</a>";
+            }
+        }, {
+            field: 'remarks',
+            title: '功能备注'
+        }, {
+            field: 'operate',
+            title: '操作',
+            formatter: function (value, row, index) {
+                return "<span class='fa fa-star-o'  id='" + row.url + "'  style='color: rgb(104, 104, 104);width: auto;cursor:pointer;' onclick='home.delFav(this);$(\"#funcList\").bootstrapTable(\"refresh\");'>取消收藏</span>";
+            }
+        }],
+        method: 'get',
+        url: contextPath + '/getCommonUrl.json',
+        dataType: 'json'
+    });
+    //收藏链接跳转
+    function linkUrl(name,url) {
+        window.parent.menu.selectNodeByName(name);
+        window.location.href = contextPath+url;
+    }
+    /*]]>*/
+</script>
+</html>

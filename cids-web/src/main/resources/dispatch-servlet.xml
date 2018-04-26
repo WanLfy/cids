@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启 springMVC注解模式 -->
+    <mvc:annotation-driven/>
+
+    <!-- 静态资源拦截处理 -->
+    <mvc:resources mapping="/views/**" location="/WEB-INF/views/"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:resources mapping="/user/assets/**" location="/assets/"/>
+
+    <!-- 配置自动扫描注解的包 -->
+    <context:component-scan base-package="cn.edu.zzu.service,cn.edu.zzu.controller"/>
+
+
+    <!--国际化-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="i18n.message"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+    <!-- thymeleaf模板解析器 -->
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+        <property name="characterEncoding" value="utf-8"/>
+        <property name="cacheable" value="false"/>
+    </bean>
+    <!-- 模板引擎 -->
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <!-- 在这里添加自定义方言 dialect -->
+    </bean>
+    <!-- 视图解析器 -->
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <!-- 解决中文乱码 -->
+        <property name="characterEncoding" value="utf-8"/>
+    </bean>
+
+    <!--注入静态常量-->
+    <bean class="cn.edu.zzu.util.Constants">
+        <property name="messageSource" ref="messageSource"/>
+    </bean>
+</beans>

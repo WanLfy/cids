@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="globalcssandjs">
+
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/font-awesome/css/font-awesome.min.css'" type="text/css" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap/css/bootstrap.min.css'" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-datepicker/css/datepicker.css'" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-select/bootstrap-select.min.css'" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-table/bootstrap-table.css'" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/css/reset.css'" />
+    <link rel="stylesheet" th:href="${#httpServletRequest.getContextPath()}+'/assets/css/styles.css?v=20180312'" />
+
+
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-1.10.2.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery.cokie.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap/js/bootstrap.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootbox/bootbox.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-select/bootstrap-select.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-table/bootstrap-table.js?v=20180312'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-table/bootstrap-table-export.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-table/tableExport.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap-treeview/bootstrap-treeview.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-blockui/jquery.blockui.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-validation-1.14.0/jquery.validate.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-validation-1.14.0/additional-methods.min.js'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jQuery.extend.js?v=20171212'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/plugins-i18n.js?v=20171212'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/form.js?v=20171212'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/table.js?v=20171212'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/home.js?v=20180312'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/menu.js?v=20180312'"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/dict.js?v=20180207'"></script>
+    <script th:inline="javascript">
+        var contextPath = [[${#httpServletRequest.getContextPath()}]];
+        $(function(){
+            home.initDate();
+            home.initSelect();
+            home.toggleChevron();
+            home.query();
+        });
+    </script>
+
+
+</head>
+<body>
+
+</body>
+</html>
