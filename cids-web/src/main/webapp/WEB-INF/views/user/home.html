@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title th:utext="#{home.title}">上海黄金交易国际中心</title>
+    <title>首页</title>
 
     <link th:include="/user/statics :: globalcssandjs" />
     <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/menu.js?v=20180307'" type="text/javascript"></script>
@@ -13,94 +13,74 @@
 </head>
 
 <body>
-    <div class="header">
-        <ul class="nav navbar-nav pull-right">
-            <!-- BEGIN USER LOGIN DROPDOWN -->
-            <li class="dropdown user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                    <span class="username" th:utext="#{home.welcome}">欢迎您！</span>
-                    <span class="username" th:id="${user.usrId}" th:text="${user.realName}"></span>
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="ajaxify" th:href="@{/user/changeUserPassword}">
-                            <i class="glyphicon glyphicon-lock"></i>
-                            <span th:utext="#{home.edit_password}">修改密码</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/user/logout.htm}">
-                            <i class="glyphicon glyphicon-log-out"></i>
-                            <span th:utext="#{home.logout}">登出</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <!-- END USER LOGIN DROPDOWN -->
-        </ul>
-        <section class="navbar-title pull-right">
-            <span id="btnRefresh" class="btn btn-xs" onclick="doRefresh()">
-                <i class="glyphicon glyphicon-refresh"></i>
-            </span>
-            <span th:utext="#{home.bussiness_date}" > 营业日期：</span>
-            <span class="settleDate" id="settleDate" th:text="${settleDate}"></span>
-            <span th:utext="#{home.exchange_state}" >交易所状态：</span>
-            <span class="status" id="status" th:text="${status}"></span>
-            <span class="push" data-toggle="modal" id="push" onclick="push();" href="#readMessage" style="cursor: pointer;"></span>
-        </section>
-    </div>
-    <div class="page-container">
-        <div class="row">
-            <div class="left-sidebar transition">
-                <div class="sidebar-wrapper transition" role="tablist">
-                    <div class="icon-box clearfix">
-                        <span class="dir-icon left"></span>
-                        <span class="toggle-icon on"></span>
-                    </div>
-                    <div class="leftMenu" style="margin-bottom: 90px;">
-                        <div id="tree"></div>
-                    </div>
+<div class="header">
+    <ul class="nav navbar-nav pull-right">
+        <!-- BEGIN USER LOGIN DROPDOWN -->
+        <li class="dropdown user">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <span class="username">欢迎您！</span>
+                <span class="username"></span>
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="ajaxify">
+                        <i class="glyphicon glyphicon-lock"></i>
+                        <span>修改密码</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        <span>登出</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- END USER LOGIN DROPDOWN -->
+    </ul>
+    <section class="navbar-title pull-right">
+            <!--<span id="btnRefresh" class="btn btn-xs" onclick="doRefresh()">-->
+                <!--<i class="glyphicon glyphicon-refresh"></i>-->
+            <!--</span>-->
+        <!--<span th:utext="#{home.bussiness_date}" > 营业日期：</span>-->
+        <!--<span class="settleDate" id="settleDate" th:text="${settleDate}"></span>-->
+        <!--<span th:utext="#{home.exchange_state}" >交易所状态：</span>-->
+        <!--<span class="status" id="status" th:text="${status}"></span>-->
+        <!--<span class="push" data-toggle="modal" id="push" onclick="push();" href="#readMessage" style="cursor: pointer;"></span>-->
+    </section>
+</div>
+<div class="page-container">
+    <div class="row">
+        <div class="left-sidebar transition">
+            <div class="sidebar-wrapper transition" role="tablist">
+                <div class="icon-box clearfix">
+                    <span class="dir-icon left"></span>
+                    <span class="toggle-icon on"></span>
                 </div>
-            </div>
-            <div class="right-container transition">
-                <h3 class="right-title" id="navTitle" th:utext="#{home.home_page}">首页</h3>
-                <ol class="breadcrumb" id="navBody">
-                    <li><i class="glyphicon glyphicon-home"></i>
-                        <a href="#" onclick="javascript:home.goHome()" th:utext="#{home.home_page}"> 首页</a>
-                    </li>
-                </ol>
-                <div class="row">
-                    <iframe th:src="${#httpServletRequest.getContextPath()}+'/url/commonUrls.htm'" onLoad="home.iFrameHeight();" scrolling="no" src="" id="mainFrame" name="mainFrame" style="width: 100%; height: 100%;scrolling: no;border:0;frameborder:0 ;marginwidth:0; marginheight:0;"></iframe>
+                <div class="leftMenu" style="margin-bottom: 90px;">
+                    <div id="tree"></div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer">
-        <div class="footer-inner">2017 © IBSP<span th:utext="#{home.title}">上海黄金国际交易中心</span> BY SGE WITH PRIMETON-SOFTWARE.</div>
-        <div class="footer-tools">
-            <span class="go-top"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        <div class="right-container transition">
+            <h3 class="right-title" id="navTitle">首页</h3>
+            <ol class="breadcrumb" id="navBody">
+                <li><i class="glyphicon glyphicon-home"></i>
+                    <a href="#" onclick="javascript:home.goHome()"> 首页</a>
+                </li>
+            </ol>
+            <div class="row">
+                <!--<iframe th:src="${#httpServletRequest.getContextPath()}+'/url/commonUrls.htm'" onLoad="home.iFrameHeight();" scrolling="no" src="" id="mainFrame" name="mainFrame" style="width: 100%; height: 100%;scrolling: no;border:0;frameborder:0 ;marginwidth:0; marginheight:0;"></iframe>-->
+            </div>
         </div>
     </div>
+</div>
+<div class="footer">
+    <div class="footer-inner">footer-inner</div>
+    <div class="footer-tools">
+        <span class="go-top"><i class="glyphicon glyphicon-chevron-up"></i></span>
+    </div>
+</div>
 </body>
-<script th:inline="javascript">
-    var userLoginName = [[${user.loginName}]];
-</script>
-<script type="text/javascript">
-    $(function () {
-        menu.setTree();
-        menu.collapse();
-        home.goTop();
-        dict.loadDict();
-    });
-    //获取交易所状态
-    function doRefresh() {
-        $.getJSON(contextPath+'/status.htm?_'+new Date().getTime(),function (response) {
-            if(response.success){
-                $("#status").html(response.result[0]);
-                $("#settleDate").html(response.result[1]);
-            }
-        });
-    }
-</script>
 </html>

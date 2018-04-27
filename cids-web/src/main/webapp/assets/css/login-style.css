@@ -5,7 +5,7 @@
   top: 40%;
   left: 50%;
   margin: -213px 0 0 -268px;
-  background: #fff url("../img/login-no-sge.png") no-repeat;
+  background: #fff url("../img/logo-head.png") no-repeat;
   border: 1px solid #aeaeae;
   border-top: none;
   box-shadow: 4px 6px 6px #aeaeae; }
@@ -30,7 +30,7 @@
 
 .form-input {
   width: 180px;
-  padding: 5px 10px 5px 25px;
+  padding: 5px 10px 5px 5px;
   margin-left: 15px; }
 
 .input-wrapper {

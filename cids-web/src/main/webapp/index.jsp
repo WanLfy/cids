@@ -5,7 +5,7 @@
     <title>Please Wait...</title>
 </head>
 <body>
-<form id="defaultForm" action="<%=request.getContextPath() %>/login.htm" method="post" target="_parent">
+<form id="defaultForm" action="<%=request.getContextPath() %>/user/login.htm" method="post" target="_parent">
 </form>
 <script type="text/javascript">
     document.getElementById("defaultForm").submit();
