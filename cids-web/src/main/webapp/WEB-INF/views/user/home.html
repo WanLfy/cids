@@ -2,76 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>首页</title>
+    <!--引入静态资源-->
+    <link th:include="/user/statics :: globalsource"/>
 
-    <link th:include="/user/statics :: globalcssandjs" />
-    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/menu.js?v=20180307'" type="text/javascript"></script>
-    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/springboards.js?v=20180124'" type="text/javascript"></script>
 </head>
 
 <body>
 <div class="header">
-    <ul class="nav navbar-nav pull-right">
-        <!-- BEGIN USER LOGIN DROPDOWN -->
-        <li class="dropdown user">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                <span class="username">欢迎您！</span>
-                <span class="username"></span>
-                <i class="glyphicon glyphicon-chevron-down"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a class="ajaxify">
-                        <i class="glyphicon glyphicon-lock"></i>
-                        <span>修改密码</span>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <i class="glyphicon glyphicon-log-out"></i>
-                        <span>登出</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- END USER LOGIN DROPDOWN -->
-    </ul>
-    <section class="navbar-title pull-right">
-            <!--<span id="btnRefresh" class="btn btn-xs" onclick="doRefresh()">-->
-                <!--<i class="glyphicon glyphicon-refresh"></i>-->
-            <!--</span>-->
-        <!--<span th:utext="#{home.bussiness_date}" > 营业日期：</span>-->
-        <!--<span class="settleDate" id="settleDate" th:text="${settleDate}"></span>-->
-        <!--<span th:utext="#{home.exchange_state}" >交易所状态：</span>-->
-        <!--<span class="status" id="status" th:text="${status}"></span>-->
-        <!--<span class="push" data-toggle="modal" id="push" onclick="push();" href="#readMessage" style="cursor: pointer;"></span>-->
-    </section>
+
 </div>
-<div class="page-container">
+<div class="content">
     <div class="row">
-        <div class="left-sidebar transition">
-            <div class="sidebar-wrapper transition" role="tablist">
+        <div class="left-content">
+            <div class="menu-content">
                 <div class="icon-box clearfix">
                     <span class="dir-icon left"></span>
                     <span class="toggle-icon on"></span>
                 </div>
-                <div class="leftMenu" style="margin-bottom: 90px;">
+                <div class="leftMenu">
                     <div id="tree"></div>
                 </div>
             </div>
         </div>
-        <div class="right-container transition">
-            <h3 class="right-title" id="navTitle">首页</h3>
-            <ol class="breadcrumb" id="navBody">
-                <li><i class="glyphicon glyphicon-home"></i>
-                    <a href="#" onclick="javascript:home.goHome()"> 首页</a>
-                </li>
-            </ol>
+        <div class="right-content">
             <div class="row">
-                <!--<iframe th:src="${#httpServletRequest.getContextPath()}+'/url/commonUrls.htm'" onLoad="home.iFrameHeight();" scrolling="no" src="" id="mainFrame" name="mainFrame" style="width: 100%; height: 100%;scrolling: no;border:0;frameborder:0 ;marginwidth:0; marginheight:0;"></iframe>-->
+                <!--<iframe th:src="${#httpServletRequest.getContextPath()}+'/url/commonUrls.htm'"-->
+                <!--onLoad="home.iFrameHeight();" scrolling="no" src="" id="mainFrame" name="mainFrame"-->
+                <!--style="width: 100%; height: 100%;scrolling: no;border:0;frameborder:0 ;marginwidth:0; marginheight:0;"></iframe>-->
             </div>
         </div>
     </div>
@@ -83,4 +44,8 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    $(function () {
+    });
+</script>
 </html>

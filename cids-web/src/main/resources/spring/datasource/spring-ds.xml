@@ -16,13 +16,13 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath*:cn/edu/zzu/mysql/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:cn/edu/zzu/mysql/mapper/*.xml"/>
     </bean>
 
     <!-- 配置自动扫描Dao接口包,动态实现Dao接口并注入到IOC容器-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="cn.edu.zzu.ssm.mapper"/>
+        <property name="basePackage" value="cn.edu.zzu.mysql.mapper"/>
     </bean>
 
     <!-- 配置事务管理器 -->

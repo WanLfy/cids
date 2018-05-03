@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/user/")
-public class UserLoginController extends BaseController {
+public class UserController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserLoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private IUserLoginService userLoginService;

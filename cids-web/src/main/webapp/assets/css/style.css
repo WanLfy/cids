@@ -1,0 +1,84 @@
+/*头部*/
+.header {
+    width: 100%;
+    height: 60px;
+    background: url("../img/header.jpg") no-repeat;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+/*内容*/
+.content {
+    margin-top: 60px;
+}
+
+.left-content,
+.right-content {
+    display: inline-block;
+    vertical-align: top;
+    height: 100vh;
+}
+
+.left-content {
+    position: fixed;
+    width: 18vw;
+    border-right: 1px solid #e2e2e2;
+}
+
+.right-content {
+    width: 80vw;
+    margin: 20px 15px 50px 18vw;
+    padding-left: 15px;
+    background-color: paleturquoise;
+}
+
+.menu-content {
+    width: 17vw;
+    height: 100vh;
+    font-size: 15px;
+    background-color: #fafafa;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: auto;
+    padding-bottom: 75px;
+    z-index: 999;
+    background-color: #3c763d;
+}
+
+/*底部*/
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    bottom: 0;
+    padding: 8px 20px 5px 20px;
+    background-color: #fafafa;
+    border-top: 1px solid #e2e2e2;
+}
+
+.footer .footer-inner,
+.footer .footer-tools {
+    display: inline-block;
+}
+
+.footer .footer-tools {
+    float: right;
+}
+
+.footer .footer-tools .go-top {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+    padding: 2px 6px;
+}
+
+.footer .footer-tools .go-top:hover {
+    opacity: 0.7;
+}

@@ -16,7 +16,7 @@
     </sql>
 
     <!--主键查询-->
-    <select id="queryByPK" parameterType="string" resultMap="baseResultMap">
+    <select id="queryByPK" resultMap="baseResultMap">
         SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
         FROM T_GP_USER
         <where>
