@@ -46,7 +46,24 @@
     overflow: auto;
     padding-bottom: 75px;
     z-index: 999;
-    background-color: #3c763d;
+}
+
+.menu-content .icon-box {
+    margin: 15px 15px 10px 0;
+}
+
+.menu-content .icon-box span {
+    float: right;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.menu-content .toggle-icon {
+    width: 29px;
+    height: 29px;
+    margin-right: 1px;
+    opacity: 0.5;
+    background: url("../img/sidebar-toggler-light.jpg") no-repeat #d8d8d8;
 }
 
 /*底部*/
