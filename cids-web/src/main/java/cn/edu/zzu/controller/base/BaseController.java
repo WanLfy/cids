@@ -6,5 +6,5 @@ package cn.edu.zzu.controller.base;
  */
 public class BaseController {
 
-    protected static final String SESSION_KEY_USER = "SSM_USER";
+    protected static final String SESSION_KEY_USER = "CIDS_USER";
 }

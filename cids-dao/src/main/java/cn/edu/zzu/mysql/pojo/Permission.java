@@ -1,5 +1,7 @@
 package cn.edu.zzu.mysql.pojo;
 
+import java.util.List;
+
 /**
  * 用户权限
  * Created by qinhao on 2018/4/27.
@@ -13,6 +15,8 @@ public class Permission {
     private String parentId;// 父节点id
     private String createTimestamp;// 创建时间
     private String updateTimestamp;// 更新时间
+
+    private List<Permission> childPer;
 
     public Integer getPermissionId() {
         return permissionId;
@@ -68,5 +72,13 @@ public class Permission {
 
     public void setUpdateTimestamp(String updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
+    }
+
+    public List<Permission> getChildPer() {
+        return childPer;
+    }
+
+    public void setChildPer(List<Permission> childPer) {
+        this.childPer = childPer;
     }
 }

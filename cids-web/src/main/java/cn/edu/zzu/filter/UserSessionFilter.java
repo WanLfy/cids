@@ -1,6 +1,6 @@
 package cn.edu.zzu.filter;
 
-import org.slf4j.MDC;
+import cn.edu.zzu.mysql.pojo.User;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * 登录拦截器
@@ -33,7 +32,7 @@ public class UserSessionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        HttpServletRequest oldReq = (HttpServletRequest) servletRequest;
+
         // 获取请求url
         String url = request.getRequestURI();
         // check url
@@ -42,19 +41,8 @@ public class UserSessionFilter implements Filter {
             filterChain.doFilter(request, response);
             return;
         }
-
-        final String JSESSIONID = "JSESSIONID";
-        String sessionId = "";
-        // 从cookie中取JSESSIONID，如果没有就随机生成一个
-        if (StringUtils.isEmpty(getCookie(oldReq, JSESSIONID))) {
-            sessionId = getCookie(oldReq, JSESSIONID);
-        } else {
-            sessionId = UUID.randomUUID().toString().replace("-", "");
-        }
-        MDC.put(JSESSIONID, sessionId);
-
         HttpSession session = request.getSession();
-        Object user = session.getAttribute("ssm-user");
+        User user = (User) session.getAttribute("CIDS_USER");
         // 判断是否登录
         if (user == null) {
             // 空缺2：cookie是否有登录信息

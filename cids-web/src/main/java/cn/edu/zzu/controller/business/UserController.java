@@ -1,8 +1,10 @@
 package cn.edu.zzu.controller.business;
 
+import cn.edu.zzu.controller.Bean.Message;
 import cn.edu.zzu.controller.base.BaseController;
+import cn.edu.zzu.mysql.pojo.Permission;
 import cn.edu.zzu.mysql.pojo.User;
-import cn.edu.zzu.service.IUserLoginService;
+import cn.edu.zzu.service.IUserService;
 import cn.edu.zzu.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户登录
@@ -26,7 +29,7 @@ public class UserController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private IUserLoginService userLoginService;
+    private IUserService userService;
 
     /**
      * 登录页面
@@ -67,13 +70,18 @@ public class UserController extends BaseController {
                           @RequestParam(value = "password") String password) {
         String mdPasswd = MD5Util.md5Password(password);
         try {
-            User user = userLoginService.checkUser(username, mdPasswd);
-            if (user != null) {
-                user.setPassword("");
-                request.getSession().setAttribute(SESSION_KEY_USER, user);
-            }
+            User user = userService.checkUser(username, mdPasswd);
+            if (user == null)
+                throw new Exception("用户名或密码错误！");
+            user.setPassword("");
+            request.getSession().setAttribute(SESSION_KEY_USER, user);
+            List<Permission> permissions = userService.getUserPermissions(user.getUserId());
+            user.setPermissions(permissions);
+
         } catch (Exception e) {
-            logger.error("登陆信息错误！");
+            logger.error(username + " login faild!");
+            model.addAttribute("loginSrc", "1");
+            model.addAttribute("loginFailMsg", e.getMessage());
             return "user/login";
         }
         return "redirect:home.htm";
