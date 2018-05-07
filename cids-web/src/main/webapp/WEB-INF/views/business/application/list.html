@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>list</title>
+    <title>查询结果</title>
     <link th:include="/user/statics :: globalsource"/>
 </head>
 <body>
@@ -23,9 +23,8 @@
                     <div class="portlet-body clearfix collapse in" id="searchWrapper">
                         <form class="margin-space-top" action="" id="searchForm">
                             <div class="input-wrapper">
-                                <label class="form-label">会员代码</label>
-                                <input class="form-input" type="text" placeholder="" name="memberId"
-                                       th:value="${paramId}" maxlength="4"/>
+                                <label class="form-label">应用名称</label>
+                                <input class="form-input" type="text" placeholder="" name="appName"/>
                             </div>
                             <div class="input-wrapper">
                                 <label class="form-label">文件类型</label>
@@ -33,24 +32,16 @@
                                     <option value="">-请选择-</option>
                                 </select>
                             </div>
-                            <div class="input-wrapper">
-                                <label class="form-label">文件名称</label>
-                                <input class="form-input" type="text" placeholder="" name="documentName"/>
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="form-label">会员名称</label>
-                                <input class="form-input" type="text" placeholder="" name="memberName"/>
-                            </div>
                             <div class="col-md-12">
                                 <div class="btn-wrapper">
                                     <a class="a-btn green" onclick="table.doSearch('dataTables');">查询<i
                                             class="glyphicon glyphicon-search"></i></a>
-                                    <a class="a-btn green" onclick="">新增<i
+                                    <a class="a-btn green" onclick="save();">新增<i
                                             class="glyphicon glyphicon-plus"></i></a>
-                                    <a class="a-btn green" onclick="">导出EXCEL<i
-                                            class="glyphicon glyphicon-file"></i></a>
-                                    <a class="a-btn green" onclick="clickfun();">删除<i
-                                            class="glyphicon glyphicon-remove"></i></a>
+                                    <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
+                                    <!--class="glyphicon glyphicon-file"></i></a>-->
+                                    <!--<a class="a-btn green" onclick="clickfun();">删除<i-->
+                                    <!--class="glyphicon glyphicon-remove"></i></a>-->
                                 </div>
                             </div>
                         </form>
@@ -75,7 +66,9 @@
 </div>
 </body>
 <script th:inline="javascript">
-    var queryListUrl = '/common/getUser.json';
+    var queryUrl = '/application/queryList.htm';
+    var saveUrl = '/application/save.htm';
+
     $(function () {
         var columns = [
             // visible: false,switchable: false
@@ -83,18 +76,45 @@
                 checkbox: true
             },
             {
-                field: 'loginName',
-                title: '登录名'
+                field: 'appName',
+                title: '应用名称'
             }
         ];
         //运行方法
-        table.showDataTable('dataTables', queryListUrl, columns, 'searchForm', true);
+        table.showDataTable('dataTables', queryUrl, columns, 'searchForm', true);
         //选中事件
         table.onCheckRowEvent('dataTables', function (selectRecords) {
             //此处控制按钮状态
             console.debug(selectRecords);
         });
     });
+
+    /**
+     * 新增
+     */
+    function save() {
+        var msg = "是否同步Jenkins应用信息到数据库？";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    table.doJumpUrl(saveUrl);
+                } else {
+                    return;
+                }
+            }
+        });
+
+    }
 
     function clickfun() {
         // table.isSelected();

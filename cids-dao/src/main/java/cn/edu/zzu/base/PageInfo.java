@@ -2,6 +2,7 @@ package cn.edu.zzu.base;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 页面分页
@@ -74,5 +75,15 @@ public class PageInfo<T extends Object> implements Serializable {
 
     public void setPageErrorInfo(String pageErrorInfo) {
         this.pageErrorInfo = pageErrorInfo;
+    }
+
+    /**
+     * 设置结果
+     *
+     * @param result
+     */
+    public void setPageData(Map<String, Object> result) {
+        setPageItems((List<T>) result.get("list"));
+        setTotalItem((Integer) result.get("size"));
     }
 }

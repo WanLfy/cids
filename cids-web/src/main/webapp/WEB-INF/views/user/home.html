@@ -13,7 +13,29 @@
 
 <body>
 <div class="header">
-
+    <ul class="nav" style="float: right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <span class="username">欢迎使用！</span>
+                <span class="username" th:text="${user.realName}"></span>
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="ajaxify" th:href="@{/user/changeUserPassword}">
+                        <i class="glyphicon glyphicon-lock"></i>
+                        <span>修改密码</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/logout.htm}">
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        <span>登出</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </div>
 <div class="content">
     <div class="row">
