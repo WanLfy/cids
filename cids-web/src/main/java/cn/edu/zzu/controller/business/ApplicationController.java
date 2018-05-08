@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,9 +52,11 @@ public class ApplicationController extends BaseController {
     @RequestMapping(value = "queryList.htm", method = RequestMethod.POST)
     @ResponseBody
     public Object query(ApplicationFormBean formBean, Model model) {
+        List<Application> list = new ArrayList<>();
         try {
             Map<String, Object> result = applicationService.query(formBean);
-            formBean.setPageData(result);
+            list = (List<Application>) result.get("list");
+            formBean.setPageItems(list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return queryPage(model);
@@ -71,7 +74,7 @@ public class ApplicationController extends BaseController {
     public String save(Model model) {
         Integer num = 0;
         try {
-            applicationService.saveJobsInfo();
+            num = applicationService.saveJobsInfo();
             Message.setNotice("新增" + num + "条应用信息");
         } catch (Exception e) {
             Message.setError(e.getMessage());

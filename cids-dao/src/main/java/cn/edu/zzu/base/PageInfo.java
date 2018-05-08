@@ -77,13 +77,4 @@ public class PageInfo<T extends Object> implements Serializable {
         this.pageErrorInfo = pageErrorInfo;
     }
 
-    /**
-     * 设置结果
-     *
-     * @param result
-     */
-    public void setPageData(Map<String, Object> result) {
-        setPageItems((List<T>) result.get("list"));
-        setTotalItem((Integer) result.get("size"));
-    }
 }

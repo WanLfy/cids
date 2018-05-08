@@ -58,7 +58,6 @@ public class JenkinsUtil {
     /**
      * 获取Jenkins中所有的Job
      *
-     * @param server
      * @return
      */
     public Map<String, Job> getJobs() {
@@ -91,9 +90,26 @@ public class JenkinsUtil {
     }
 
     /**
+     * 获取视图下所有Job
+     *
+     * @param viewName
+     * @return
+     */
+    public Map<String, Job> getJobsByView(String viewName) {
+        Map<String, Job> result = null;
+        if (this.server != null) {
+            try {
+                result = this.server.getJobs(viewName);
+            } catch (IOException e) {
+                logger.error("getJobsByView Faild!");
+            }
+        }
+        return result;
+    }
+
+    /**
      * 通过JobName获取Job的详细信息
      *
-     * @param server
      * @param jobName
      * @return
      */
@@ -114,7 +130,6 @@ public class JenkinsUtil {
      * 问题：org.apache.http.client.HttpResponseException: No valid crumb was included in the request
      * 原因：Jenkins全局安全设置中"防止跨站点请求伪造"是开启状态
      *
-     * @param server
      * @param jobName
      * @return
      */

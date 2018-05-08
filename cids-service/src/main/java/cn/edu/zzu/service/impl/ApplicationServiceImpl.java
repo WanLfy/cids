@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(transactionManager = "mysqlTransactionManager", rollbackFor = Exception.class)
-public class IApplicationServiceImpl implements IApplicationService {
+public class ApplicationServiceImpl implements IApplicationService {
 
     @Autowired
     private IConfigService configService;
@@ -49,21 +49,29 @@ public class IApplicationServiceImpl implements IApplicationService {
             throw new Exception("与Jenkins所在主机连接失败");
         }
         //初始化util
-        JenkinsUtil util = new JenkinsUtil(url, url, pass);
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
+        //获取视图
         Map<String, View> viewsMap = util.getViews();
-        for (String key : viewsMap.keySet()) {
-            JobWithDetails job = util.getJobDetails(key);
-            Application application = new Application();
-            application.setAppName(job.getName());
-            application.setViewName(key);
-            if (job.getLastSuccessfulBuild() != null) {
-                //从顶层开始一直遍历到最低层
-                String findCmd = "find " + storagePath + "/" + job.getName() + " ! -empty -name '*.war'";
-                String result = ssh2.execCmd(findCmd);
-                application.setStoragePath(result);
+        for (String viewName : viewsMap.keySet()) {
+            if ("all".equals(viewName)) {
+                continue;
             }
-            applicationMapper.save(application);
-            num++;
+            //获取视图下的Jobs
+            Map<String, Job> jobsMap = util.getJobsByView(viewName);
+            for (String key : jobsMap.keySet()) {
+                JobWithDetails job = util.getJobDetails(key);
+                Application application = new Application();
+                application.setAppName(job.getName());
+                application.setViewName(viewName);
+                if (job.getLastSuccessfulBuild() != null) {
+                    //从顶层开始一直遍历到最低层
+                    String findCmd = "find " + storagePath + "/" + job.getName() + " ! -empty -name '*.war'";
+                    String result = ssh2.execCmd(findCmd);
+                    application.setStoragePath(result);
+                }
+                applicationMapper.save(application);
+                num++;
+            }
         }
         ssh2.disConnect();
         return num;
