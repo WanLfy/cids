@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.zzu.mysql.mapper.UserMapper">
+    <resultMap id="baseResultMap" type="cn.edu.zzu.mysql.pojo.User">
+        <id column="F_USER_ID" property="userId" jdbcType="VARCHAR"/>
+        <result column="F_LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
+        <result column="F_PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="F_REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="F_STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="F_CREATE_TIMESTAMP" property="createTimestamp" jdbcType="TIMESTAMP"/>
+        <result column="F_UPDATE_TIMESTAMP" property="updateTimestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="cols">
+        F_USER_ID,F_LOGIN_NAME,F_PASSWORD,F_REAL_NAME,F_STATUS
+    </sql>
+
+    <!--主键查询-->
+    <select id="queryByPK" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_USER
+        <where>
+            <if test="id!=null and id!=''">
+                AND F_USER_ID=#{id}
+            </if>
+        </where>
+    </select>
+
+    <!--用户查询-->
+    <select id="queryUser" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_USER
+        <where>
+            <if test="username!=null and username!=''">
+                AND F_LOGIN_NAME=#{username}
+            </if>
+            <if test="password!=null and password!=''">
+                AND F_PASSWORD=#{password}
+            </if>
+        </where>
+    </select>
+</mapper>

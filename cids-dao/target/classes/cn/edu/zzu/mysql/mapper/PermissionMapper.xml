@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.zzu.mysql.mapper.PermissionMapper">
+    <resultMap id="baseResultMap" type="cn.edu.zzu.mysql.pojo.Permission">
+        <id column="F_PERMISSION_ID" property="permissionId" jdbcType="INTEGER"/>
+        <result column="F_PERMISSION_NAME" property="permissionName" jdbcType="VARCHAR"/>
+        <result column="F_PERMISSION_DESC" property="permissionDesc" jdbcType="VARCHAR"/>
+        <result column="F_PERMISSION_URL" property="permissionUrl" jdbcType="VARCHAR"/>
+        <result column="F_PARENT_ID" property="parentId" jdbcType="VARCHAR"/>
+        <result column="F_CREATE_TIMESTAMP" property="createTimestamp" jdbcType="TIMESTAMP"/>
+        <result column="F_UPDATE_TIMESTAMP" property="updateTimestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="cols">
+        F_PERMISSION_ID,F_PERMISSION_NAME,F_PERMISSION_DESC,F_PERMISSION_URL,F_PARENT_ID
+    </sql>
+
+    <!--主键角色拥有权限-->
+    <select id="queryByRole" parameterType="string" resultMap="baseResultMap">
+        SELECT DISTINCT a.F_PERMISSION_ID,a.F_PERMISSION_NAME,a.F_PERMISSION_DESC,a.F_PERMISSION_URL,a.F_PARENT_ID
+        FROM T_GP_PERMISSION a
+        LEFT JOIN T_GP_ROLE_PERMISSION b
+        ON a.F_PERMISSION_ID = b.F_PERMISSION_ID
+        <where>
+            <if test="roleId!=null and roleId!=''">
+                AND b.F_ROLE_ID=#{roleId}
+            </if>
+        </where>
+    </select>
+
+    <!--主键角色拥有权限-->
+    <select id="queryByUser" parameterType="string" resultMap="baseResultMap">
+        SELECT DISTINCT a.F_PERMISSION_ID,a.F_PERMISSION_NAME,a.F_PERMISSION_DESC,a.F_PERMISSION_URL,a.F_PARENT_ID
+        FROM T_GP_PERMISSION a
+        LEFT JOIN T_GP_ROLE_PERMISSION b
+        ON a.F_PERMISSION_ID = b.F_PERMISSION_ID
+        LEFT JOIN T_GP_USER_ROLE c
+        ON b.F_ROLE_ID=c.F_ROLE_ID
+        <where>
+            <if test="userId!=null and userId!=''">
+                AND c.F_USER_ID=#{userId}
+            </if>
+        </where>
+    </select>
+</mapper>

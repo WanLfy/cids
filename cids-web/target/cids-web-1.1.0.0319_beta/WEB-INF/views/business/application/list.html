@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>查询结果</title>
+    <link th:include="/user/statics :: globalsource"/>
+</head>
+<body>
+<div class="page-right-container">
+    <div th:include="/common/message::message_body"></div>
+    <div class="row">
+        <div class="iframe-content transition">
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>查询条件</h4>
+                        <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                              data-target="#searchWrapper"></span>
+                    </div>
+
+                    <div class="portlet-body clearfix collapse in" id="searchWrapper">
+                        <form class="margin-space-top" action="" id="searchForm">
+                            <div class="input-wrapper">
+                                <label class="form-label">应用名称</label>
+                                <input class="form-input" type="text" placeholder="" name="appName"/>
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="form-label">文件类型</label>
+                                <select class="form-input" name="documentType">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-wrapper">
+                                    <a class="a-btn green" onclick="table.doSearch('dataTables');">查询<i
+                                            class="glyphicon glyphicon-search"></i></a>
+                                    <a class="a-btn green" onclick="save();">新增<i
+                                            class="glyphicon glyphicon-plus"></i></a>
+                                    <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
+                                    <!--class="glyphicon glyphicon-file"></i></a>-->
+                                    <!--<a class="a-btn green" onclick="clickfun();">删除<i-->
+                                    <!--class="glyphicon glyphicon-remove"></i></a>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>查询列表</h4>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    var queryUrl = '/application/queryList.htm';
+    var saveUrl = '/application/save.htm';
+
+    $(function () {
+        var columns = [
+            // visible: false,switchable: false
+            {
+                checkbox: true
+            },
+            {
+                field: 'appName',
+                title: '应用名称'
+            }
+        ];
+        //运行方法
+        table.showDataTable('dataTables', queryUrl, columns, 'searchForm', true);
+        //选中事件
+        table.onCheckRowEvent('dataTables', function (selectRecords) {
+            //此处控制按钮状态
+            console.debug(selectRecords);
+        });
+    });
+
+    /**
+     * 新增
+     */
+    function save() {
+        var msg = "是否同步Jenkins应用信息到数据库？";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    table.doJumpUrl(saveUrl);
+                } else {
+                    return;
+                }
+            }
+        });
+
+    }
+
+    function clickfun() {
+        // table.isSelected();
+        var msg = "是否删除选中的记录";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    table.doJumpWithData('dataTables', deleteUrl);
+                } else {
+                    return;
+                }
+            }
+        });
+    }
+</script>
+</html>
