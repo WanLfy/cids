@@ -13,6 +13,7 @@ var table = {
             columns: columns, //需要显示的列对象
             method: 'post',
             url: contextPath + url,
+            /*contentType:'application/json',一下请求类型浏览器兼容性更好*/
             contentType: 'application/x-www-form-urlencoded',
             cache: false,
             dataType: 'json',
