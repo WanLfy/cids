@@ -12,7 +12,8 @@ import java.util.Map;
  */
 public class PageInfo<T extends Object> implements Serializable {
 
-    private static final long serialVersionUID = 6686230521816848694L;
+
+    private static final long serialVersionUID = -5468020866682626287L;
     /*当前页数*/
     private int currentPage = 1;
     /*每页大小*/
@@ -77,4 +78,13 @@ public class PageInfo<T extends Object> implements Serializable {
         this.pageErrorInfo = pageErrorInfo;
     }
 
+    /**
+     * 设置结果集和总数
+     *
+     * @param result
+     */
+    public void setData(Map<String, Object> result) {
+        setPageItems((List<T>) result.get("list"));
+        setTotalItem((Integer) result.get("size"));
+    }
 }

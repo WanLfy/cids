@@ -6,7 +6,7 @@
         <result column="F_LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
         <result column="F_PASSWORD" property="password" jdbcType="VARCHAR"/>
         <result column="F_REAL_NAME" property="realName" jdbcType="VARCHAR"/>
-        <result column="F_STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="F_STATUS" property="status" jdbcType="CHAR"/>
         <result column="F_CREATE_TIMESTAMP" property="createTimestamp" jdbcType="TIMESTAMP"/>
         <result column="F_UPDATE_TIMESTAMP" property="updateTimestamp" jdbcType="TIMESTAMP"/>
     </resultMap>

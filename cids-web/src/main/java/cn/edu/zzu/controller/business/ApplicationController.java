@@ -38,7 +38,13 @@ public class ApplicationController extends BaseController {
      */
     @RequestMapping(value = "queryList.htm", method = RequestMethod.GET)
     public String queryPage(Model model) {
-
+        List<String> viewNames = null;
+        try {
+            viewNames = applicationService.getViewNames();
+            model.addAttribute("viewNames", viewNames);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return "business/application/list";
     }
 
@@ -52,11 +58,9 @@ public class ApplicationController extends BaseController {
     @RequestMapping(value = "queryList.htm", method = RequestMethod.POST)
     @ResponseBody
     public Object query(ApplicationFormBean formBean, Model model) {
-        List<Application> list = new ArrayList<>();
         try {
             Map<String, Object> result = applicationService.query(formBean);
-            list = (List<Application>) result.get("list");
-            formBean.setPageItems(list);
+            formBean.setData(result);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return queryPage(model);

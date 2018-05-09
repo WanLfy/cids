@@ -20,19 +20,28 @@ public class Constants {
     public static final String TIsFlag = "TIsFlag";
     public static final String IF_NO = "0";// 否
     public static final String IF_YES = "1";// 是
+    // 用户状态标识
+    public static final String TUserStatus = "TUserStatus";
+    public static final String TUser_Active = "0";//激活
+    public static final String TUser_Pause = "1";//停用
+    public static final String TUser_Lock = "2";//锁定
+
 
     /*********定义变量**********/
     static {
         Map map = null;
         ArrayList list = null;
 
+        //--------------------------
         map = new HashMap();
         list = new ArrayList();
-        list.add(addValue(IF_NO, "IF_NO"));
-        list.add(addValue(IF_YES, "IF_YES"));
-        map.put("name", TIsFlag);
+        list.add(addValue(TUser_Active, "TUser_Active"));
+        list.add(addValue(TUser_Pause, "TUser_Pause"));
+        list.add(addValue(TUser_Lock, "TUser_Lock"));
+        map.put("name", TUserStatus);
         map.put("values", list);
-        constants.put(TIsFlag, map);
+        constants.put(TUserStatus, map);
+
     }
 
     /*********定义变量**********/
@@ -41,9 +50,9 @@ public class Constants {
     }
 
     //return map value
-    private static Map addValue(String constkey, String messKey) {
+    private static Map addValue(String constKey, String messKey) {
         Map map = new HashMap();
-        map.put("constkey", constkey);
+        map.put("constKey", constKey);
         map.put("messKey", messKey);
         return map;
     }
@@ -98,7 +107,7 @@ public class Constants {
         List<Map> mapList = Constants.getValues(dictName);
         for (Map<String, Object> val : mapList) {
             String value = Constants.messageSource.getMessage(dictName + "." + (String) val.get("messKey"), null, locale);
-            String key = (String) val.get("constkey");
+            String key = (String) val.get("constKey");
             map.put(key, value);
         }
         return map;

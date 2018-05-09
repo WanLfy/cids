@@ -5,6 +5,7 @@ import cn.edu.zzu.controller.base.BaseController;
 import cn.edu.zzu.mysql.pojo.Permission;
 import cn.edu.zzu.mysql.pojo.User;
 import cn.edu.zzu.service.IUserService;
+import cn.edu.zzu.util.Constants;
 import cn.edu.zzu.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 用户登录
@@ -68,11 +70,16 @@ public class UserController extends BaseController {
     public String doLogin(HttpServletRequest request, Model model,
                           @RequestParam(value = "username") String username,
                           @RequestParam(value = "password") String password) {
+        Locale locale = request.getLocale();
         String mdPasswd = MD5Util.md5Password(password);
         try {
             User user = userService.checkUser(username, mdPasswd);
-            if (user == null)
+            if (user == null) {
                 throw new Exception("用户名或密码错误！");
+            }
+            if (!Constants.TUser_Active.equals(user.getStatus())) {
+                throw new Exception("该用户已被" + Constants.getDictLabel(Constants.TUserStatus, user.getStatus(), locale));
+            }
             user.setPassword("");
             request.getSession().setAttribute(SESSION_KEY_USER, user);
             List<Permission> permissions = userService.getUserPermissions(user.getUserId());

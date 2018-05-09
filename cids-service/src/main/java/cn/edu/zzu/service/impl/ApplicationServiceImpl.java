@@ -5,6 +5,7 @@ import cn.edu.zzu.mysql.mapper.ApplicationMapper;
 import cn.edu.zzu.mysql.pojo.Application;
 import cn.edu.zzu.service.IApplicationService;
 import cn.edu.zzu.service.IConfigService;
+import cn.edu.zzu.util.DateFormatUtil;
 import cn.edu.zzu.util.JSchUtil;
 import cn.edu.zzu.util.JenkinsUtil;
 import com.offbytwo.jenkins.JenkinsServer;
@@ -15,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by qinhao on 2018/5/7.
@@ -41,17 +40,16 @@ public class ApplicationServiceImpl implements IApplicationService {
         String hostUser = configService.getValue("jenkins_host_user");
         String hostPass = configService.getValue("jenkins_host_pass");
         String storagePath = configService.getValue("jenkins_workspace");
-
+        //初始化util
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
+        //获取视图
+        Map<String, View> viewsMap = util.getViews();
         //与主机建立连接
         JSchUtil ssh2 = new JSchUtil(hostUser, hostPass, hostIp, 3000);
         ssh2.connect();
         if (!ssh2.check()) {
             throw new Exception("与Jenkins所在主机连接失败");
         }
-        //初始化util
-        JenkinsUtil util = new JenkinsUtil(url, user, pass);
-        //获取视图
-        Map<String, View> viewsMap = util.getViews();
         for (String viewName : viewsMap.keySet()) {
             if ("all".equals(viewName)) {
                 continue;
@@ -80,8 +78,35 @@ public class ApplicationServiceImpl implements IApplicationService {
     @Override
     public Map<String, Object> query(PageInfo page) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        map.put("list", applicationMapper.query(page));
+        String url = configService.getValue("jenkins_url");
+        String user = configService.getValue("jenkins_user");
+        String pass = configService.getValue("jenkins_pass");
+        List<Application> applicationList = applicationMapper.query(page);
+        for (Application application : applicationList) {
+            //初始化util
+            JenkinsUtil util = new JenkinsUtil(url, user, pass);
+            JobWithDetails jobDetails = util.getJobDetails(application.getAppName());
+            application.setBuildNum(jobDetails.getLastBuild().getNumber());
+            String strDate = DateFormatUtil.formatDateToString(new Date(jobDetails.getLastBuild().details().getTimestamp()), "yyyyMMdd");
+            application.setBuildDate(strDate);
+            application.setBuildResult(jobDetails.getLastBuild().details().getResult().toString());
+            application.setBuildInfoUrl(jobDetails.getLastBuild().getUrl() + "console");
+        }
+        map.put("list", applicationList);
         map.put("size", applicationMapper.count(page));
         return map;
+    }
+
+    @Override
+    public List<String> getViewNames() throws Exception {
+        String url = configService.getValue("jenkins_url");
+        String user = configService.getValue("jenkins_user");
+        String pass = configService.getValue("jenkins_pass");
+
+        //初始化util
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
+        //获取视图
+        Map<String, View> viewsMap = util.getViews();
+        return new ArrayList<>(viewsMap.keySet());
     }
 }

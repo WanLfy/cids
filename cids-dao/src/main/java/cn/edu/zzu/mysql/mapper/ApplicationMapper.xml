@@ -20,10 +20,10 @@
         FROM T_GP_APPLICATION
         <where>
             <if test="appName!=null and appName!=''">
-                AND WHERE F_APP_NAME=#{appName}
+                AND F_APP_NAME like CONCAT('%',#{appName},'%')
             </if>
             <if test="viewName!=null and viewName!=''">
-                AND WHERE F_VIEW_NAME=#{viewName}
+                AND F_VIEW_NAME like CONCAT('%',#{viewName},'%')
             </if>
         </where>
     </select>
@@ -34,10 +34,10 @@
         FROM T_GP_APPLICATION
         <where>
             <if test="appName!=null and appName!=''">
-                AND WHERE F_APP_NAME=#{appName}
+                AND F_APP_NAME like CONCAT('%',#{appName},'%')
             </if>
             <if test="viewName!=null and viewName!=''">
-                AND WHERE F_VIEW_NAME=#{viewName}
+                AND F_VIEW_NAME like CONCAT('%',#{viewName},'%')
             </if>
         </where>
     </select>
