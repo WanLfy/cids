@@ -30,7 +30,8 @@
                                 <label class="form-label">视图名称</label>
                                 <select class="form-input" name="viewName">
                                     <option value="">-请选择-</option>
-                                    <option th:each="item:${viewNames}" th:text="${item}" th:value="${item=='all'?'':item}"/>
+                                    <option th:each="item:${viewNames}" th:text="${item}"
+                                            th:value="${item=='all'?'':item}"/>
                                 </select>
                             </div>
                             <div class="col-md-12">
@@ -80,7 +81,17 @@
             {field: 'viewName', title: '视图名称'},
             {field: 'buildNum', title: '构建号'},
             {field: 'buildResult', title: '构建结果'},
-            {field: 'buildDate', title: '构建时间'}
+            {field: 'buildDate', title: '构建时间'},
+            {
+                title: '构建操作', formatter: function (value, row, index) {
+                    return "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>构建</span></a>"
+                }
+            }, {
+                field: 'buildInfoUrl', title: 'Jenkins控制台', align: 'center',
+                formatter: function (value, row, index) {
+                    return "<a style='text-decoration: underline' target='_blank' href='" + value + "'>查看构建详情</a>"
+                }
+            }
 
         ];
         //运行方法
@@ -96,7 +107,7 @@
      * 新增
      */
     function save() {
-        var msg = "是否同步Jenkins应用信息到数据库？";
+        var msg = "是否同步Jenkins应用信息到数据库?";
         bootbox.confirm({
             message: msg,
             buttons: {
@@ -119,9 +130,8 @@
 
     }
 
-    function clickfun() {
-        // table.isSelected();
-        var msg = "是否删除选中的记录";
+    function startBuild() {
+        var msg = "是否开始构建应用?";
         bootbox.confirm({
             message: msg,
             buttons: {
@@ -135,7 +145,6 @@
             },
             callback: function (result) {
                 if (result) {
-                    table.doJumpWithData('dataTables', deleteUrl);
                 } else {
                     return;
                 }
