@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 获取公共JSON数据类
  * Created by qinhao on 2018/5/3.
  */
 @Controller

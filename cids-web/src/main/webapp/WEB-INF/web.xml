@@ -29,30 +29,30 @@
     </filter-mapping>
 
     <!-- 登录过滤器 -->
-    <!--<filter>-->
-        <!--<filter-name>loginFilter</filter-name>-->
-        <!--<filter-class>cn.edu.zzu.filter.UserSessionFilter</filter-class>-->
-        <!--<init-param>-->
-            <!--<param-name>excludeUrls</param-name>-->
-            <!--<param-value>-->
-                <!--login;loginSubmit;logout;home-->
-            <!--</param-value>-->
-        <!--</init-param>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>loginFilter</filter-name>-->
-        <!--<url-pattern>*.htm</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>cn.edu.zzu.filter.UserSessionFilter</filter-class>
+        <init-param>
+            <param-name>excludeUrls</param-name>
+            <param-value>
+                login;loginSubmit;logout;home
+            </param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
 
     <!--logback日志-->
-    <!--<filter>-->
-        <!--<filter-name>logbackFilter</filter-name>-->
-        <!--<filter-class>cn.edu.zzu.filter.LogbackFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>logbackFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>logbackFilter</filter-name>
+        <filter-class>cn.edu.zzu.filter.LogbackFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>logbackFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!-- DispatcherServlet配置 -->
     <servlet>

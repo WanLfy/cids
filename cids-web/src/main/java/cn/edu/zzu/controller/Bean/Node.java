@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 生成菜单结构
  * Created by qinhao on 2018/5/3.
  */
 public class Node {

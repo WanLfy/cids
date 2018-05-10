@@ -3,6 +3,7 @@ package cn.edu.zzu.filter;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
+import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +25,13 @@ public class LogbackFilter implements Filter {
         String path = "";
         try {
             LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-            loggerContext.reset();
             JoranConfigurator joranConfigurator = new JoranConfigurator();
             joranConfigurator.setContext(loggerContext);
+            loggerContext.reset();
 
             path = System.getProperty("config.home.dir") + "/cids_configs/logback.xml";
             joranConfigurator.doConfigure(new File(path));
+            StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
             logger.debug("loaded slf4j configure file from {}", path);
         } catch (JoranException e) {
             e.printStackTrace();
@@ -42,43 +44,9 @@ public class LogbackFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        HttpServletRequest req = (HttpServletRequest) request;
-//        HttpServletResponse res = (HttpServletResponse) response;
-//        //logback记录sessionID
-//        String JSESSIONID = "JSESSIONID";
-//        String sessionId = "";
-//        //从cookie中取JSESSIONID，如果没有就随机生成一个
-//        if (StringUtils.isNotBlank(getCookie(req, JSESSIONID))) {
-//            sessionId = getCookie(req, JSESSIONID);
-//        } else {
-//            sessionId = UUID.randomUUID().toString().replace("-", "");
-//        }
-//        MDC.put(JSESSIONID, sessionId);
-//
-//        chain.doFilter(request,response);
     }
 
     @Override
     public void destroy() {
-    }
-
-
-    /**
-     * 从cookie中取值
-     *
-     * @param request
-     * @param key
-     * @return
-     */
-    public static String getCookie(HttpServletRequest request, String key) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equalsIgnoreCase(key)) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
     }
 }
