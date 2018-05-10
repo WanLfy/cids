@@ -4,6 +4,10 @@
          version="2.5">
     <display-name>cids</display-name>
 
+    <!--logback日志监听器,须在ContextLoaderListener之前-->
+    <listener>
+        <listener-class>cn.edu.zzu.listener.LogbackConfigListener</listener-class>
+    </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring.xml</param-value>
@@ -42,16 +46,6 @@
     <filter-mapping>
         <filter-name>loginFilter</filter-name>
         <url-pattern>*.htm</url-pattern>
-    </filter-mapping>
-
-    <!--logback日志-->
-    <filter>
-        <filter-name>logbackFilter</filter-name>
-        <filter-class>cn.edu.zzu.filter.LogbackFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>logbackFilter</filter-name>
-        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!-- DispatcherServlet配置 -->

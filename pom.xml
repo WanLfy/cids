@@ -25,6 +25,7 @@
         <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
+        <logback.listener.version>0.1.4</logback.listener.version>
         <jdbc.version>5.1.41</jdbc.version>
         <druid.version>1.1.6</druid.version>
         <jackson.version>2.7.2</jackson.version>
@@ -92,21 +93,31 @@
         </dependency>
 
         <!-- 日志 -->
+        <!--把Spring中大量使用common-logging替换成slf4j,只有这个包能打印出Spring框架本身的信息数据-->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <artifactId>jcl-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
+        <!--
+        1.logback-ext-spring是Spring提供的，它用于提供listener监听器
+        2.指定配置文件位置
+        <context-param>
+             <param-name>logbackConfigLocation</param-name>
+             <param-value>classpath:logback.xml</param-value>
+        </context-param>
+        -->
+        <!--<dependency>-->
+            <!--<groupId>org.logback-extensions</groupId>-->
+            <!--<artifactId>logback-ext-spring</artifactId>-->
+            <!--<version>${logback.listener.version}</version>-->
+        <!--</dependency>-->
+
         <!-- JSON -->
         <dependency>
             <groupId>com.alibaba</groupId>

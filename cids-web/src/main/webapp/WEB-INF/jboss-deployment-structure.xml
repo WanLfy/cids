@@ -2,10 +2,11 @@
 <jboss-deployment-structure>
     <deployment>
         <!-- Exclusions allow you to prevent the server from automatically adding some dependencies     -->
+        <!--boss7默认采用容器自己的slf4j,应用配置的将不生效,需要排除一下的slf4j-->
         <exclusions>
-            <module name="org.slf4j" />
-            <module name="org.slf4j.impl" />
-            <module name="org.slf4j.jcl-over-slf4j" />
+            <module name="org.slf4j"/>
+            <module name="org.slf4j.impl"/>
+            <module name="org.slf4j.jcl-over-slf4j"/>
         </exclusions>
     </deployment>
 </jboss-deployment-structure>

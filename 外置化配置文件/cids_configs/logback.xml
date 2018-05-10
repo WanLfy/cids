@@ -82,9 +82,11 @@
         </encoder>
     </appender>
 
+    <logger name="cn.edu.zzu.mysql.mapper" level="DEBUG"/>
     <!-- 模拟运行时修改成DEBUG,上线时修改成INFO -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="cn.edu.zzu.mysql.mapper"/>
         <appender-ref ref="debugRolling"/>
         <appender-ref ref="infoRolling"/>
         <appender-ref ref="errorRolling"/>

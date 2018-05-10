@@ -33,7 +33,7 @@ public class JenkinsUtil {
         try {
             this.server = new JenkinsServer(new URI(url), username, password);
         } catch (URISyntaxException e) {
-            logger.error("Connect JenkinsServer Faild!");
+            logger.error("Connect JenkinsServer failed!");
         }
     }
 
@@ -49,7 +49,7 @@ public class JenkinsUtil {
             try {
                 job = this.server.getJob(name);
             } catch (IOException e) {
-                logger.error("getJob Faild!");
+                logger.error("getJob failed!");
             }
         }
         return job;
@@ -66,7 +66,7 @@ public class JenkinsUtil {
             try {
                 result = this.server.getJobs();
             } catch (IOException e) {
-                logger.error("getJobs Faild!");
+                logger.error("getJobs failed!");
             }
         }
         return result;
@@ -83,7 +83,7 @@ public class JenkinsUtil {
             try {
                 result = this.server.getViews();
             } catch (IOException e) {
-                logger.error("getViews Faild!");
+                logger.error("getViews failed!");
             }
         }
         return result;
@@ -101,7 +101,7 @@ public class JenkinsUtil {
             try {
                 result = this.server.getJobs(viewName);
             } catch (IOException e) {
-                logger.error("getJobsByView Faild!");
+                logger.error("getJobsByView failed!");
             }
         }
         return result;
@@ -119,7 +119,7 @@ public class JenkinsUtil {
             try {
                 job = this.server.getJob(jobName);
             } catch (IOException e) {
-                logger.error("getJobDetails Faild!");
+                logger.error("getJobDetails failed!");
             }
         }
         return job;
@@ -140,7 +140,7 @@ public class JenkinsUtil {
             try {
                 build = jth.triggerJobAndWaitUntilFinished(jobName);
             } catch (Exception e) {
-                logger.error("startBuild Faild!");
+                logger.error("startBuild failed!");
             }
         }
         return build;

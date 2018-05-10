@@ -1,6 +1,5 @@
 package cn.edu.zzu.controller.business;
 
-import cn.edu.zzu.controller.Bean.Message;
 import cn.edu.zzu.controller.base.BaseController;
 import cn.edu.zzu.mysql.pojo.Permission;
 import cn.edu.zzu.mysql.pojo.User;
@@ -84,9 +83,9 @@ public class UserController extends BaseController {
             request.getSession().setAttribute(SESSION_KEY_USER, user);
             List<Permission> permissions = userService.getUserPermissions(user.getUserId());
             user.setPermissions(permissions);
-
+            logger.info(username + " login success!");
         } catch (Exception e) {
-            logger.error(username + " login faild!");
+            logger.error(username + " login failed!");
             model.addAttribute("loginSrc", "1");
             model.addAttribute("loginFailMsg", e.getMessage());
             return "user/login";

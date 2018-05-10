@@ -1,4 +1,4 @@
-package cn.edu.zzu.filter;
+package cn.edu.zzu.listener;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
@@ -7,20 +7,15 @@ import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.io.File;
-import java.io.IOException;
 
-/**
- * Created by clg on 2017/11/28.
- */
-public class LogbackFilter implements Filter {
+public class LogbackConfigListener implements ServletContextListener {
     private static final Logger logger = LoggerFactory.getLogger(ServletContextListener.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
         //读取logback配置文件
         String path = "";
         try {
@@ -43,10 +38,7 @@ public class LogbackFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    }
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
-    @Override
-    public void destroy() {
     }
 }
