@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>首页</title>
+
+    <link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/reset.css'" rel="stylesheet" type="text/css"/>
+    <link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/login-style.css'" rel="stylesheet"
+          type="text/css"/>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-1.10.2.min.js'"
+            type="text/javascript"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/plugins/jquery-validation/jquery.validate.min.js'"
+            type="text/javascript"></script>
+    <script th:src="${#httpServletRequest.getContextPath()}+'/assets/js/login.js?v=20180504'"
+            type="text/javascript"></script>
+</head>
+
+<div class="page-container">
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <h4>消息提醒</h4>
+                            <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                                  data-target="#notification"></span>
+                        </div>
+                        <div class="portlet-body clearfix collapse in" id="notification">
+                            <ul class="fuc-list">
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                                <li><a href="#">新消息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <h4>常用功能</h4>
+                            <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                                  data-target="#commonFunctions"></span>
+                        </div>
+                        <div class="portlet-body clearfix collapse in" id="commonFunctions">
+                            <table id="funcList"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+</html>

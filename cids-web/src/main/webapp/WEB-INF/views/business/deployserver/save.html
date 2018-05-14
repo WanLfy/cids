@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>新增页面</title>
+    <link th:include="/user/statics :: globalsource"/>
+</head>
+<body>
+<div class="page-right-container">
+    <div th:include="/common/message::message_body"></div>
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>新增</h4>
+                        <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                              data-target="#searchWrapper"></span>
+                    </div>
+
+                    <div class="portlet-body clearfix collapse in" id="searchWrapper">
+                        <form class="margin-space-top save-module" action="" id="dataForm"
+                              method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">部署主机</label>
+                                        <select class="form-input" name="hostId" id="hostId">
+                                            <option value="">-请选择-</option>
+                                            <option th:each="vo,item:${hostsMap}" th:text="${vo.value}"
+                                                    th:value="${vo.key}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">部署应用</label>
+                                        <select class="form-input" name="appId" id="appId">
+                                            <option value="">-请选择-</option>
+                                            <option th:each="vo,item:${appsMap}" th:text="${vo.value}"
+                                                    th:value="${vo.key}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">服务器名称</label>
+                                        <input class="form-input" type="text" placeholder="" name="serverName"
+                                               id="serverName"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">部署路径</label>
+                                        <input class="form-input" type="text" placeholder="" name="storagePath"
+                                               id="storagePath"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-wrapper">
+                                            <label class="form-label">协议</label>
+                                            <input class="form-input" type="text" placeholder="" name="protocol"
+                                                   id="protocol"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-wrapper">
+                                            <label class="form-label">端口号</label>
+                                            <input class="form-input" type="text" placeholder="" name="port" id="port"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-wrapper">
+                                                <label class="form-label">应用根路径</label>
+                                                <input class="form-input" type="text" placeholder="" name="contextPath"
+                                                       id="contextPath"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="btn-wrapper">
+                                            <a class="a-btn green" onclick="save();" id="subbtn">提交 <i
+                                                    class="fa fa-check"></i></a>
+                                            <a class="a-btn grey" onclick="history.go(-1)">返回 <i
+                                                    class="fa fa-mail-reply"></i></a>
+                                        </div>
+                                    </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+
+    $(function () {
+        $("#dataForm").validate({
+            ignore: ':hidden',
+            rules: {
+                hostId: 'required',
+                appId: 'required',
+                serverName: 'required',
+                storagePath: 'required',
+                protocol: 'required',
+                port: 'required',
+                contextPath: 'required'
+            }, messages: {
+                hostId: '不能为空',
+                appId: '不能为空',
+                serverName: '不能为空',
+                storagePath: '不能为空',
+                protocol: '不能为空',
+                port: '不能为空',
+                contextPath: '不能为空'
+            }
+        });
+    });
+
+    /**
+     * 保存
+     */
+    function save() {
+        $('#dataForm').attr('action', contextPath + '/server/save.htm');
+        $('#dataForm').submit();
+    }
+</script>
+</html>

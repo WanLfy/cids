@@ -23,6 +23,14 @@ public class CommonController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
 
     /**
+     * 首页
+     */
+    @RequestMapping(value = "/main.htm")
+    public String main() {
+        return "common/main";
+    }
+
+    /**
      * 获取菜单json
      *
      * @param request

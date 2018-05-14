@@ -13,12 +13,42 @@ import java.util.List;
  */
 public interface ApplicationMapper {
 
+    List<Application> queryAll() throws SQLException;
+
+    /**
+     * 分页查询
+     *
+     * @param page
+     * @return
+     * @throws SQLException
+     */
     List<Application> query(PageInfo page) throws SQLException;
 
+    /**
+     * 计数
+     *
+     * @param page
+     * @return
+     * @throws SQLException
+     */
     Integer count(PageInfo page) throws SQLException;
 
+    /**
+     * 新增
+     *
+     * @param application
+     * @return
+     * @throws SQLException
+     */
     int save(Application application) throws SQLException;
 
+    /**
+     * 更新
+     *
+     * @param application
+     * @return
+     * @throws SQLException
+     */
     int update(Application application) throws SQLException;
 
 }

@@ -14,6 +14,11 @@
         F_APP_ID,F_APP_NAME,F_VIEW_NAME,F_STORAGE_PATH
     </sql>
 
+    <select id="queryAll" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_APPLICATION
+    </select>
+
     <!--查询-->
     <select id="query" resultMap="baseResultMap">
         SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP

@@ -4,14 +4,14 @@
          version="2.5">
     <display-name>cids</display-name>
 
-    <!--logback日志监听器,须在ContextLoaderListener之前-->
-    <listener>
-        <listener-class>cn.edu.zzu.listener.LogbackConfigListener</listener-class>
-    </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring.xml</param-value>
     </context-param>
+    <!--logback日志监听器,须在ContextLoaderListener之前-->
+    <listener>
+        <listener-class>cn.edu.zzu.listener.LogbackConfigListener</listener-class>
+    </listener>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

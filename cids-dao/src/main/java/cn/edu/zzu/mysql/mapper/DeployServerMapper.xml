@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.zzu.mysql.mapper.DeployServerMapper">
+    <resultMap id="baseResultMap" type="cn.edu.zzu.mysql.pojo.DeployServer">
+        <id column="F_SERVER_ID" property="serverId" jdbcType="INTEGER"/>
+        <result column="F_HOST_ID" property="hostId" jdbcType="INTEGER"/>
+        <result column="F_APP_ID" property="appId" jdbcType="INTEGER"/>
+        <result column="F_SERVER_NAME" property="serverName" jdbcType="VARCHAR"/>
+        <result column="F_STORAGE_PATH" property="storagePath" jdbcType="VARCHAR"/>
+        <result column="F_PROTOCOL" property="protocol" jdbcType="VARCHAR"/>
+        <result column="F_PORT" property="port" jdbcType="VARCHAR"/>
+        <result column="F_CONTEX_TPATH" property="contextPath" jdbcType="VARCHAR"/>
+        <result column="F_CREATE_TIMESTAMP" property="createTimestamp" jdbcType="TIMESTAMP"/>
+        <result column="F_UPDATE_TIMESTAMP" property="updateTimestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="cols">
+        F_SERVER_ID,F_HOST_ID,F_APP_ID,F_SERVER_NAME,F_STORAGE_PATH,F_PROTOCOL,F_PORT,F_CONTEX_TPATH
+    </sql>
+
+    <!--查询-->
+    <select id="query" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_DEPLOY_SERVER
+        <where>
+            <if test="hostId!=null and hostId!=''">
+                AND F_HOST_ID=#{hostId}
+            </if>
+            <if test="serverName!=null and serverName!=''">
+                AND F_SERVER_NAME like CONCAT('%',#{serverName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--计数-->
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_DEPLOY_SERVER
+        <where>
+            <if test="hostId!=null and hostId!=''">
+                AND F_HOST_ID=#{hostId}
+            </if>
+            <if test="serverName!=null and serverName!=''">
+                AND F_SERVER_NAME like CONCAT('%',#{serverName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="save" parameterType="cn.edu.zzu.mysql.pojo.DeployServer">
+        INSERT INTO T_GP_DEPLOY_SERVER(<include refid="cols"/>,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{serverId,jdbcType=INTEGER},
+        #{hostId,jdbcType=INTEGER},
+        #{appId,jdbcType=INTEGER},
+        #{serverName,jdbcType=VARCHAR},
+        #{storagePath,jdbcType=VARCHAR},
+        #{protocol,jdbcType=VARCHAR},
+        #{port,jdbcType=VARCHAR},
+        #{contextPath,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+
+</mapper>

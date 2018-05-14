@@ -23,22 +23,18 @@
                     <div class="portlet-body clearfix collapse in" id="searchWrapper">
                         <form class="margin-space-top" action="" id="searchForm">
                             <div class="input-wrapper">
-                                <label class="form-label">应用名称</label>
-                                <input class="form-input" type="text" placeholder="" name="appName"/>
+                                <label class="form-label">主机名称</label>
+                                <input class="form-input" type="text" placeholder="" name="hostName"/>
                             </div>
                             <div class="input-wrapper">
-                                <label class="form-label">视图名称</label>
-                                <select class="form-input" name="viewName">
-                                    <option value="">-请选择-</option>
-                                    <option th:each="item:${viewNames}" th:text="${item}"
-                                            th:value="${item=='all'?'':item}"/>
-                                </select>
+                                <label class="form-label">主机地址</label>
+                                <input class="form-input" type="text" placeholder="" name="hostIP"/>
                             </div>
                             <div class="col-md-12">
                                 <div class="btn-wrapper">
                                     <a class="a-btn green" onclick="table.doSearch('dataTables');">查询<i
                                             class="glyphicon glyphicon-search"></i></a>
-                                    <a class="a-btn green" onclick="save();">新增<i
+                                    <a class="a-btn green" onclick="table.doJumpUrl(saveUrl);">新增<i
                                             class="glyphicon glyphicon-plus"></i></a>
                                     <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
                                     <!--class="glyphicon glyphicon-file"></i></a>-->
@@ -68,30 +64,18 @@
 </div>
 </body>
 <script th:inline="javascript">
-    var queryUrl = '/application/queryList.htm';
-    var saveUrl = '/application/save.htm';
+    var queryUrl = '/host/queryList.htm';
+    var saveUrl = '/host/save.htm';
 
     $(function () {
-
 
         var columns = [
             // visible: false,switchable: false
             {checkbox: true},
-            {field: 'appName', title: '应用名称'},
-            {field: 'viewName', title: '视图名称'},
-            {field: 'buildNum', title: '构建号'},
-            {field: 'buildResult', title: '构建结果'},
-            {field: 'buildDate', title: '构建时间'},
-            {
-                field: 'buildInfoUrl', title: 'Jenkins控制台', align: 'center',
-                formatter: function (value, row, index) {
-                    return "<a style='text-decoration: underline' target='_blank' href='" + value + "'>查看构建详情</a>";
-                }
-            }, {
-                title: '构建操作', align: 'center', formatter: function (value, row, index) {
-                    return "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>构建</span></a>";
-                }
-            }
+            {field: 'hostName', title: '主机名称'},
+            {field: 'hostIP', title: '主机地址'},
+            {field: 'loginName', title: '登录用户名'},
+            {field: 'createTimestamp', title: '创建时间', align: 'center'}
 
         ];
         //运行方法
@@ -103,53 +87,5 @@
         });
     });
 
-    /**
-     * 新增
-     */
-    function save() {
-        var msg = "是否同步Jenkins应用信息到数据库?";
-        bootbox.confirm({
-            message: msg,
-            buttons: {
-                confirm: {
-                    label: "确定"
-                },
-                cancel: {
-                    label: "取消"
-
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    table.doJumpUrl(saveUrl);
-                } else {
-                    return;
-                }
-            }
-        });
-
-    }
-
-    function startBuild() {
-        var msg = "是否开始构建应用?";
-        bootbox.confirm({
-            message: msg,
-            buttons: {
-                confirm: {
-                    label: "确定"
-                },
-                cancel: {
-                    label: "取消"
-
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                } else {
-                    return;
-                }
-            }
-        });
-    }
 </script>
 </html>

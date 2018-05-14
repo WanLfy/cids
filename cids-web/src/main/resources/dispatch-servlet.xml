@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--
-    TODO
+    TODO:了解一下
     <context:component-scan/>是配置自动扫描注解的包,改配置包含自动注入BeanPostProcessor功能,即包含了<context:annotation-config/>的功能,但仍需要配置全,以防万一.
     -->
     <context:annotation-config/>
@@ -13,7 +13,7 @@
     <context:component-scan base-package="cn.edu.zzu.service,cn.edu.zzu.controller"/>
 
     <!--
-    TODO
+    TODO:了解一下
     spring3.1之后变更为：
     DefaultAnnotationHandlerMapping -> RequestMappingHandlerMapping
     AnnotationMethodHandlerAdapter -> RequestMappingHandlerAdapter

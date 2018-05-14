@@ -17,7 +17,9 @@ public class DeployServer {
     private String contextPath;// 项目根路径
     private String createTimestamp;// 创建时间
     private String updateTimestamp;// 更新时间
-    private String status;// 服务器启停状态
+    private int status;// 服务器启停状态
+    private String address;//访问地址
+
 
     public Integer getServerId() {
         return serverId;
@@ -99,11 +101,19 @@ public class DeployServer {
         this.updateTimestamp = updateTimestamp;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

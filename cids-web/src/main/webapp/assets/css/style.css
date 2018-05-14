@@ -6,6 +6,16 @@
     transition: all .3s ease-in;
 }
 
+label.error {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #e4393c;
+}
+
+input.error {
+    border: 1px solid #ec5656;
+}
+
 /*头部*/
 .header {
     width: 100%;
@@ -86,7 +96,7 @@
 .iframe-content {
     width: 99vw;
 }
-
++
 .portlet {
     margin-bottom: 20px;
     -webkit-box-shadow: 4px 4px 8px #888;

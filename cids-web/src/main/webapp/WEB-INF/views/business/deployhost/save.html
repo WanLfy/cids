@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>新增页面</title>
+    <link th:include="/user/statics :: globalsource"/>
+</head>
+<body>
+<div class="page-right-container">
+    <div th:include="/common/message::message_body"></div>
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>新增</h4>
+                        <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                              data-target="#searchWrapper"></span>
+                    </div>
+
+                    <div class="portlet-body clearfix collapse in" id="searchWrapper">
+                        <form class="margin-space-top save-module" action="" id="dataForm"
+                              method="post">
+                            <div class="input-wrapper">
+                                <label class="form-label">主机名称</label>
+                                <input class="form-input" type="text" name="hostName" id="hostName"/>
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="form-label">主机地址</label>
+                                <input class="form-input" type="text" placeholder="" name="hostIP" id="hostIP"/>
+                            </div>
+                            <br>
+                            <div class="input-wrapper">
+                                <label class="form-label">访问用户名</label>
+                                <input class="form-input" type="text" placeholder="" name="loginName" id="loginName"/>
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="form-label">用户密码</label>
+                                <input class="form-input" type="password" placeholder="" name="password" id="password"/>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-wrapper">
+                                    <a class="a-btn green" onclick="save();" id="subbtn">提交 <i
+                                            class="fa fa-check"></i></a>
+                                    <a class="a-btn grey" onclick="history.go(-1)">返回 <i
+                                            class="fa fa-mail-reply"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+
+    $(function () {
+        $("#dataForm").validate({
+            ignore: ':hidden',
+            rules: {
+                hostName: 'required',
+                hostIP: 'required',
+                loginName: 'required',
+                password: 'required'
+            }, messages: {
+                hostName: '不能为空',
+                hostIP: '不能为空',
+                loginName: '不能为空',
+                password: '不能为空'
+            }
+        });
+    });
+
+    /**
+     * 保存
+     */
+    function save() {
+        $('#dataForm').attr('action', contextPath + '/host/save.htm');
+        $('#dataForm').submit();
+    }
+</script>
+</html>
