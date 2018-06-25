@@ -38,10 +38,10 @@
                                 <div class="btn-wrapper">
                                     <a class="a-btn green" onclick="table.doSearch('dataTables');">查询<i
                                             class="glyphicon glyphicon-search"></i></a>
-                                    <a class="a-btn green" onclick="save();">新增<i
+                                    <a class="a-btn green" onclick="save();">同步<i
                                             class="glyphicon glyphicon-plus"></i></a>
-                                    <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
-                                    <!--class="glyphicon glyphicon-file"></i></a>-->
+                                    <a class="a-btn green" onclick="startBuild();">构建<i
+                                            class="glyphicon glyphicon-file"></i></a>
                                     <!--<a class="a-btn green" onclick="clickfun();">删除<i-->
                                     <!--class="glyphicon glyphicon-remove"></i></a>-->
                                 </div>
@@ -70,6 +70,8 @@
 <script th:inline="javascript">
     var queryUrl = '/application/queryList.htm';
     var saveUrl = '/application/save.htm';
+    var buildUrl = contextPath + '/application/build.htm'
+    var queryBuildUrl = contextPath + '/application/queryBuild.htm'
 
     $(function () {
 
@@ -77,6 +79,11 @@
         var columns = [
             // visible: false,switchable: false
             {checkbox: true},
+            {
+                title: '序号', formatter: function (value, row, index) {
+                    return "<span id='rowIndex" + row.appId + "" + "'>" + (index + 1) + "</span>";
+                }
+            },
             {field: 'appName', title: '应用名称'},
             {field: 'viewName', title: '视图名称'},
             {field: 'buildNum', title: '构建号'},
@@ -86,10 +93,6 @@
                 field: 'buildInfoUrl', title: 'Jenkins控制台', align: 'center',
                 formatter: function (value, row, index) {
                     return "<a style='text-decoration: underline' target='_blank' href='" + value + "'>查看构建详情</a>";
-                }
-            }, {
-                title: '构建操作', align: 'center', formatter: function (value, row, index) {
-                    return "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>构建</span></a>";
                 }
             }
 
@@ -131,6 +134,7 @@
     }
 
     function startBuild() {
+        var row = table.isSelected()[0];
         var msg = "是否开始构建应用?";
         bootbox.confirm({
             message: msg,
@@ -145,8 +149,50 @@
             },
             callback: function (result) {
                 if (result) {
+                    var index = $('#rowIndex' + row.appId).text();
+                    $.ajax({
+                        url: buildUrl,
+                        type: 'POST',
+                        DataType: 'json',
+                        data: {'appName': row.appName},
+                        success: function (response) {
+                            if (response.success) {
+                                if (response.retMsg == 'BUILDING' || response.retMsg == 'REBUILDING') {
+                                    var v_img = $("<img src='" + contextPath + "/assets/img/loading.gif'>");
+                                    $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text(response.retMsg).append(v_img);
+                                    setTimeout(function () {
+                                        check_app_func(row, index);
+                                    }, 3000)
+                                }
+                            } else {
+                                showErrMessage('应用构建失败,' + response.retMsg);
+                            }
+                        }
+                    });
                 } else {
                     return;
+                }
+            }
+        });
+    }
+
+    function check_app_func(row, index) {
+        $.ajax({
+            url: queryBuildUrl,
+            type: 'POST',
+            DataType: 'json',
+            data: {'appName': row.appName},
+            success: function (response) {
+                if (response.success) {
+                    if (response.retMsg == 'BUILDING' || response.retMsg == 'REBUILDING') {
+                        var v_img = $("<img src='" + contextPath + "/assets/img/loading.gif'>");
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text(response.retMsg).append(v_img);
+                        setTimeout(function () {
+                            check_app_func(row, index);
+                        }, 3000)
+                    } else {
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text(response.retMsg);
+                    }
                 }
             }
         });

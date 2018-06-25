@@ -20,7 +20,7 @@ input.error {
 .header {
     width: 100%;
     height: 70px;
-    /*background: url("../img/header.jpg") no-repeat;*/
+    background: url("../img/headbg.png") no-repeat;
     background-color: #FFF;
     background-size: cover;
     border-bottom: 1px solid #e2e2e2;
@@ -29,6 +29,12 @@ input.error {
     top: 0;
     left: 0;
     z-index: 999;
+}
+
+.nav > li > a {
+    margin-top: 15px;
+    color: #000000;
+    font-size: 15px;
 }
 
 /*内容*/
@@ -96,6 +102,7 @@ input.error {
 .iframe-content {
     width: 99vw;
 }
+
 +
 .portlet {
     margin-bottom: 20px;

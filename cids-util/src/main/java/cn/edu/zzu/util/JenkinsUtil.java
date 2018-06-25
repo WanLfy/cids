@@ -31,9 +31,14 @@ public class JenkinsUtil {
      */
     public JenkinsUtil(String url, String username, String password) {
         try {
-            this.server = new JenkinsServer(new URI(url), username, password);
-        } catch (URISyntaxException e) {
-            logger.error("Connect JenkinsServer failed!");
+            int testJenkinsConn = HttpConnectUtil.getResponseCode("http", url);
+            if (testJenkinsConn == 403 || (testJenkinsConn >= 200 && testJenkinsConn < 400)) {
+                this.server = new JenkinsServer(new URI(url), username, password);
+            } else {
+                throw new Exception("访问Jenkins失败：" + url);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 

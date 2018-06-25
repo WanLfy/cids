@@ -154,7 +154,7 @@ public class JSchUtil {
             channelSftp.get(remoteFile, localFile, new FileProgressMonitor(), ChannelSftp.OVERWRITE);
             channelSftp.quit();
         } else {
-            throw new Exception("下载:连接主机失败");
+            throw new Exception("下载war包失败");
         }
     }
 
@@ -172,7 +172,7 @@ public class JSchUtil {
             channelSftp.put(localFile, remoteFile, ChannelSftp.OVERWRITE);
             channelSftp.quit();
         } else {
-            throw new Exception("上传:连接主机失败");
+            throw new Exception("上传war包失败");
         }
     }
 }

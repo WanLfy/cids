@@ -2,6 +2,7 @@ package cn.edu.zzu.mysql.mapper;
 
 import cn.edu.zzu.base.PageInfo;
 import cn.edu.zzu.mysql.pojo.Application;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by qinhao on 2018/5/7.
  */
 public interface ApplicationMapper {
+
+    Application queryByPK(@Param("id") Integer id) throws SQLException;
 
     List<Application> queryAll() throws SQLException;
 

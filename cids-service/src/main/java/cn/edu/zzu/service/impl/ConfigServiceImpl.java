@@ -27,7 +27,6 @@ public class ConfigServiceImpl implements IConfigService {
             throw new RuntimeException("properties 未注入！");
         } else {
             String value = this.configProperties.getProperty(name);
-            logger.debug("获取属性{}值:{}", name, value);
             return value;
         }
     }

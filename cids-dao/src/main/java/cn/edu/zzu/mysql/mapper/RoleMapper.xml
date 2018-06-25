@@ -13,6 +13,70 @@
         F_ROLE_ID,F_ROLE_NAME,F_ROLE_DESC
     </sql>
 
+    <select id="query" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_ROLE
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                AND F_ROLE_NAME like CONCAT('%',#{roleName},'%')
+            </if>
+            <if test="roleDesc!=null and roleDesc!=''">
+                AND F_ROLE_DESC like CONCAT('%',#{roleDesc},'%')
+            </if>
+        </where>
+    </select>
+    <select id="queryAll" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_ROLE
+    </select>
+    <!--总数-->
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_ROLE
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                AND F_ROLE_NAME like CONCAT('%',#{roleName},'%')
+            </if>
+            <if test="roleDesc!=null and roleDesc!=''">
+                AND F_ROLE_DESC like CONCAT('%',#{roleDesc},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="cn.edu.zzu.mysql.pojo.Role">
+        INSERT INTO T_GP_ROLE(<include refid="cols"/>,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{roleId,jdbcType=VARCHAR},
+        #{roleName,jdbcType=VARCHAR},
+        #{roleDesc,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+
+    <insert id="saveRelation">
+        INSERT INTO T_GP_ROLE_PERMISSION(F_ROLE_ID,F_PERMISSION_ID,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{roleId,jdbcType=VARCHAR},
+        #{permissionId,jdbcType=INTEGER},
+        now()
+        )
+    </insert>
+    <!--删除角色-->
+    <delete id="delete" parameterType="String">
+        DELETE FROM T_GP_ROLE
+        WHERE F_ROLE_ID=#{roleId}
+    </delete>
+    <!--删除关联表中role相关-->
+    <delete id="deleteRelation" parameterType="String">
+        DELETE FROM T_GP_ROLE_PERMISSION
+        WHERE F_ROLE_ID=#{roleId}
+    </delete>
+    <select id="countRoleUser" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_USER_ROLE
+        WHERE F_ROLE_ID=#{roleId}
+    </select>
+
     <!--主键查询-->
     <select id="queryByPK" parameterType="string" resultMap="baseResultMap">
         SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP

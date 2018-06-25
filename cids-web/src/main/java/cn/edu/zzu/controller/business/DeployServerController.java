@@ -1,5 +1,6 @@
 package cn.edu.zzu.controller.business;
 
+import cn.edu.zzu.controller.Bean.BaseResult;
 import cn.edu.zzu.controller.Bean.Message;
 import cn.edu.zzu.controller.base.BaseController;
 import cn.edu.zzu.controller.business.formBean.DeployServerFormBean;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -64,6 +66,12 @@ public class DeployServerController extends BaseController {
         return formBean;
     }
 
+    /**
+     * 新增页面
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "save.htm", method = RequestMethod.GET)
     public String savePage(Model model) {
         Map<String, String> hostsMap = new HashMap<String, String>();
@@ -79,6 +87,13 @@ public class DeployServerController extends BaseController {
         return "business/deployserver/save";
     }
 
+    /**
+     * 新增服务器
+     *
+     * @param server
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "save.htm", method = RequestMethod.POST)
     public String save(DeployServer server, Model model) {
         try {
@@ -90,5 +105,92 @@ public class DeployServerController extends BaseController {
         }
         Message.setNotice("新增成功！");
         return queryPage(model);
+    }
+
+    /**
+     * 启动服务器
+     *
+     * @return
+     */
+    @RequestMapping(value = "start.htm")
+    @ResponseBody
+    public BaseResult<String> start(@RequestParam("id") Integer id) {
+        BaseResult<String> result = new BaseResult<String>();
+        try {
+            String cmdRS = deployServerService.start(id);
+            result.setSuccess(true);
+            result.setResult(cmdRS);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 停止服务器
+     *
+     * @return
+     */
+    @RequestMapping(value = "stop.htm")
+    @ResponseBody
+    public BaseResult<String> stop(@RequestParam("id") Integer id) {
+        BaseResult<String> result = new BaseResult<String>();
+        try {
+            String cmdRS = deployServerService.stop(id);
+            result.setSuccess(true);
+            result.setResult(cmdRS);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 检查服务器启动状态
+     *
+     * @return
+     */
+    @RequestMapping(value = "check.htm")
+    @ResponseBody
+    public BaseResult<String> check(@RequestParam("id") Integer id) {
+        BaseResult<String> result = new BaseResult<String>();
+        try {
+            String cmdRS = deployServerService.check(id);
+            result.setSuccess(true);
+            result.setResult(cmdRS);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setResult(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 服务器部署应用
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "deploy.htm")
+    @ResponseBody
+    public BaseResult<String> deploy(@RequestParam("id") Integer id) {
+        BaseResult<String> result = new BaseResult<>();
+        try {
+            String cmdRS = deployServerService.deploy(id);
+            if ("SUCCESS".equals(cmdRS)) {
+                result.setSuccess(true);
+                result.setRetMsg("应用部署成功,请启动服务器");
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setRetMsg(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
     }
 }

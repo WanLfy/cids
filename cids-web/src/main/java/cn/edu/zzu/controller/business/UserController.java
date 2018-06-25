@@ -1,6 +1,9 @@
 package cn.edu.zzu.controller.business;
 
+import cn.edu.zzu.controller.Bean.Message;
 import cn.edu.zzu.controller.base.BaseController;
+import cn.edu.zzu.controller.business.formBean.PermissionFormBean;
+import cn.edu.zzu.controller.business.formBean.UserFormBean;
 import cn.edu.zzu.mysql.pojo.Permission;
 import cn.edu.zzu.mysql.pojo.User;
 import cn.edu.zzu.service.IUserService;
@@ -14,10 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 用户登录
@@ -40,6 +46,16 @@ public class UserController extends BaseController {
     @RequestMapping(value = "login.htm")
     public String loginPage() {
         return "user/login";
+    }
+
+
+    /**
+     * 登出
+     */
+    @RequestMapping(value = "logout.htm")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute(SESSION_KEY_USER);
+        return "redirect:login.htm";
     }
 
     /**
@@ -85,11 +101,101 @@ public class UserController extends BaseController {
             user.setPermissions(permissions);
             logger.info(username + " login success!");
         } catch (Exception e) {
-            logger.error(username + " login failed!");
+            logger.error(username + " login failed!\n" + e.getMessage());
             model.addAttribute("loginSrc", "1");
-            model.addAttribute("loginFailMsg", e.getMessage());
+            model.addAttribute("loginFailMsg", "登录系统出错");
             return "user/login";
         }
         return "redirect:home.htm";
     }
+
+    /**
+     * 查询页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "queryList.htm", method = RequestMethod.GET)
+    public String queryPage() {
+        return "business/user/list";
+    }
+
+    /**
+     * 查询
+     *
+     * @param formBean
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "queryList.htm", method = RequestMethod.POST)
+    @ResponseBody
+    public Object query(UserFormBean formBean, Model model) {
+        try {
+            Map<String, Object> result = userService.query(formBean);
+            formBean.setData(result);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return queryPage();
+        }
+        return formBean;
+    }
+
+    /**
+     * 新增页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "savePage.htm")
+    public String savePage(Model model) {
+        Map<String, String> map = new HashMap<String, String>();
+        try {
+            map = userService.roleSel();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        model.addAttribute("rolesMap", map);
+        return "business/user/save";
+    }
+
+    /**
+     * 新增
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "save.htm")
+    public String save(User user, @RequestParam("roleId") String roleId) {
+        try {
+            user.setPassword(MD5Util.md5Password(user.getPassword()));
+            userService.save(user, roleId);
+            Message.setNotice("新增用户成功");
+        } catch (Exception e) {
+            Message.setError(e.getMessage());
+        }
+        return queryPage();
+    }
+
+    /**
+     * 冻结用户
+     *
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "update.htm")
+    public String update(@RequestParam("operaType") boolean operaType, @RequestParam("userId") String userId) {
+        try {
+            if (operaType) {
+                userService.active(userId);
+                Message.setNotice("用户激活成功");
+            } else {
+                userService.delete(userId);
+                Message.setNotice("用户冻结成功");
+            }
+        } catch (Exception e) {
+            Message.setError(e.getMessage());
+        }
+        return queryPage();
+    }
+
 }

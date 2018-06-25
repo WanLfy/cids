@@ -1,5 +1,6 @@
 package cn.edu.zzu.mysql.mapper;
 
+import cn.edu.zzu.base.PageInfo;
 import cn.edu.zzu.mysql.pojo.Permission;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,37 @@ public interface PermissionMapper {
      * @throws SQLException
      */
     List<Permission> queryByUser(@Param("userId") String userId) throws SQLException;
+
+    List<Permission> queryAll() throws SQLException;
+
+    /**
+     * 分页查询
+     *
+     * @param page
+     * @return
+     * @throws SQLException
+     */
+    List<Permission> query(PageInfo page) throws SQLException;
+
+    Integer count(PageInfo page) throws SQLException;
+
+    /**
+     * 新增
+     *
+     * @param permission
+     * @return
+     */
+    Integer save(Permission permission);
+
+    /**
+     * 删除
+     *
+     * @param permissionId
+     * @return
+     */
+    Integer delete(@Param("permissionId") Integer permissionId);
+
+    Integer deleteRelation(@Param("permissionId") Integer permissionId);
+
+    Integer countPermissionRole(@Param("permissionId") Integer permissionId);
 }

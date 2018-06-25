@@ -2,6 +2,7 @@ package cn.edu.zzu.mysql.mapper;
 
 import cn.edu.zzu.base.PageInfo;
 import cn.edu.zzu.mysql.pojo.DeployServer;
+import org.apache.ibatis.annotations.Param;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface DeployServerMapper {
 
     List<DeployServer> query(PageInfo page) throws SQLException;
+
+    DeployServer queryByPK(@Param("id") Integer id) throws SQLException;
 
     Integer count(PageInfo page) throws SQLException;
 

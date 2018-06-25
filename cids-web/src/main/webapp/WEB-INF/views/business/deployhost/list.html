@@ -36,8 +36,8 @@
                                             class="glyphicon glyphicon-search"></i></a>
                                     <a class="a-btn green" onclick="table.doJumpUrl(saveUrl);">新增<i
                                             class="glyphicon glyphicon-plus"></i></a>
-                                    <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
-                                    <!--class="glyphicon glyphicon-file"></i></a>-->
+                                    <a class="a-btn green" onclick="pingFunc();">PING<i
+                                            class="glyphicon glyphicon-file"></i></a>
                                     <!--<a class="a-btn green" onclick="clickfun();">删除<i-->
                                     <!--class="glyphicon glyphicon-remove"></i></a>-->
                                 </div>
@@ -86,6 +86,34 @@
             console.debug(selectRecords);
         });
     });
+
+    /**
+     * PING
+     */
+    function pingFunc() {
+        var msg = "是否测试主机连通性?";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    showNoticeMessage('主机连接成功!');
+                    //TODO:
+                } else {
+                    return;
+                }
+            }
+        });
+
+    }
 
 </script>
 </html>

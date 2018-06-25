@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>新增页面</title>
+    <link th:include="/user/statics :: globalsource"/>
+</head>
+<body>
+<div class="page-right-container">
+    <div th:include="/common/message::message_body"></div>
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>新增</h4>
+                        <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                              data-target="#searchWrapper"></span>
+                    </div>
+
+                    <div class="portlet-body clearfix collapse in" id="searchWrapper">
+                        <form class="margin-space-top save-module" action="" id="dataForm"
+                              method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">用户名称</label>
+                                        <input class="form-input" type="text" placeholder="" name="loginName"
+                                               id="loginName"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">用户密码</label>
+                                        <input class="form-input" type="password" placeholder="" name="password"
+                                               id="password"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">真实姓名</label>
+                                        <input class="form-input" type="text" placeholder="" name="realName"
+                                               id="realName"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">角色</label>
+                                        <select class="form-input" name="roleId" id="roleId">
+                                            <option th:each="vo,item:${rolesMap}" th:text="${vo.value}"
+                                                    th:value="${vo.key}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-wrapper">
+                                    <a class="a-btn green" onclick="save();" id="subbtn">提交 <i
+                                            class="fa fa-check"></i></a>
+                                    <a class="a-btn grey" onclick="history.go(-1)">返回 <i
+                                            class="fa fa-mail-reply"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+
+    $(function () {
+        $("#dataForm").validate({
+            ignore: ':hidden',
+            rules: {
+                loginName: 'required',
+                password: 'required',
+                realName: 'required',
+                roleId: 'required'
+            }, messages: {
+                loginName: '不能为空',
+                password: '不能为空',
+                realName: '不能为空',
+                roleId: '不能为空'
+            }
+        });
+    });
+
+    /**
+     * 保存
+     */
+    function save() {
+        $('#dataForm').attr('action', contextPath + '/user/save.htm');
+        $('#dataForm').submit();
+    }
+</script>
+</html>

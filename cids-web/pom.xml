@@ -9,6 +9,9 @@
     <artifactId>cids-web</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <project.build.timestamp>${timestamp}</project.build.timestamp>
+    </properties>
     <dependencies>
 
         <!--service-->

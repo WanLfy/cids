@@ -16,9 +16,10 @@ var menu = {
                     levels: 1,
                     collapseIcon: 'glyphicon glyphicon-chevron-down',
                     expandIcon: 'glyphicon glyphicon-chevron-right',
-                    // onhoverColor: '#F5F5F5',
-                    // selectedBackColor: '#428BCA',
-                    // backColor: '#fafafa',
+                    onhoverColor: '#fbe8cc',
+
+                    selectedBackColor: '#daa353',
+                    backColor: '#fafafa',
                     onNodeSelected: function (event, node) {
                         if (node.requestURI) {
                             $('html').scrollTop(0);

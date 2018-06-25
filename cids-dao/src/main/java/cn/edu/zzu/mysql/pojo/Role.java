@@ -1,5 +1,7 @@
 package cn.edu.zzu.mysql.pojo;
 
+import java.util.List;
+
 /**
  * 用户角色
  * Created by qinhao on 2018/4/27.
@@ -9,6 +11,7 @@ public class Role {
     private String roleId;// 角色id
     private String roleName;// 角色名称
     private String roleDesc;// 角色描述
+    private List<Permission> permissions;// 权限
     private String createTimestamp;// 创建时间
     private String updateTimestamp;// 更新时间
 
@@ -34,6 +37,14 @@ public class Role {
 
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     public String getCreateTimestamp() {

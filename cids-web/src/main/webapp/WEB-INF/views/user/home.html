@@ -13,16 +13,19 @@
 
 <body>
 <div class="header">
+    <a th:href="@{/user/home.htm}" style="text-decoration: none;color: #000000;">
+        <h3 style="margin:20px 0 0 30px;display: inline-block;">基于Jenkins的集成部署系统</h3>
+    </a>
     <ul class="nav" style="float: right">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                 <span class="username">欢迎使用！</span>
                 <span class="username" th:text="${user.realName}"></span>
-                <i class="glyphicon glyphicon-chevron-down"></i>
+                <i style="color: #000000;" class="glyphicon glyphicon-chevron-down"></i>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="ajaxify" th:href="@{/user/changeUserPassword}">
+                    <a class="ajaxify" onclick="javascript:void(0);">
                         <i class="glyphicon glyphicon-lock"></i>
                         <span>修改密码</span>
                     </a>

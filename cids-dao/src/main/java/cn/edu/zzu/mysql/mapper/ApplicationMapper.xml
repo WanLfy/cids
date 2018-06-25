@@ -19,6 +19,15 @@
         FROM T_GP_APPLICATION
     </select>
 
+    <select id="queryByPK" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_APPLICATION
+        <where>
+            <if test="id!=null and id!=''">
+                AND F_APP_ID=#{id}
+            </if>
+        </where>
+    </select>
     <!--查询-->
     <select id="query" resultMap="baseResultMap">
         SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP

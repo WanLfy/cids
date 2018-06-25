@@ -13,20 +13,20 @@
                    th:utext="${#httpServletRequest.getAttribute('CIDS_MESSAGE')}?${#httpServletRequest.getAttribute('CIDS_MESSAGE').message}:''">后台异常信息</label>
 
             <!--<div th:object="${#httpServletRequest.getAttribute('CIDS_MESSAGE')}"-->
-                 <!--th:if="${#httpServletRequest.getAttribute('CIDS_MESSAGE')}">-->
-                <!--<div style="padding-left: 20px; padding-top: 10px;">-->
-                    <!--<button class="btn blue exception-button" style="max-height: 28px;"-->
-                            <!--onclick="$('#msg-board .exception').slideDown('fast'); $('#msg-board .exception-button').hide();"-->
-                            <!--th:if="*{not #lists.isEmpty(exceptions)}">查看详细信息-->
-                    <!--</button>-->
-                <!--</div>-->
-                <!--<div class="exception" style="padding-left: 20px; display: none">-->
-                    <!--&lt;!&ndash; <p style="max-height: 15px;" th:each="exception, rowStat : ${#httpServletRequest.getAttribute('CIDS_MESSAGE').exceptions}" th:text="${exception}"/> &ndash;&gt;-->
-                    <!--<th:block th:each="exception:*{exceptions}">-->
-                        <!--<span th:text="${exception}"></span>-->
-                        <!--<br/>-->
-                    <!--</th:block>-->
-                <!--</div>-->
+            <!--th:if="${#httpServletRequest.getAttribute('CIDS_MESSAGE')}">-->
+            <!--<div style="padding-left: 20px; padding-top: 10px;">-->
+            <!--<button class="btn blue exception-button" style="max-height: 28px;"-->
+            <!--onclick="$('#msg-board .exception').slideDown('fast'); $('#msg-board .exception-button').hide();"-->
+            <!--th:if="*{not #lists.isEmpty(exceptions)}">查看详细信息-->
+            <!--</button>-->
+            <!--</div>-->
+            <!--<div class="exception" style="padding-left: 20px; display: none">-->
+            <!--&lt;!&ndash; <p style="max-height: 15px;" th:each="exception, rowStat : ${#httpServletRequest.getAttribute('CIDS_MESSAGE').exceptions}" th:text="${exception}"/> &ndash;&gt;-->
+            <!--<th:block th:each="exception:*{exceptions}">-->
+            <!--<span th:text="${exception}"></span>-->
+            <!--<br/>-->
+            <!--</th:block>-->
+            <!--</div>-->
             <!--</div>-->
         </div>
 
@@ -55,6 +55,17 @@
             function hideErrMessage() {
                 $('#msg-board>div.error').hide();
             };
+
+            function showNoticeMessage(errMSg) {
+                $('#msg-board>div.notice>label').text(errMSg);
+                $('#msg-board>div.error').hide();
+                $('#msg-board>div.notice').show();
+            };
+
+            function hideNoticeMessage() {
+                $('#msg-board>div.notice').hide();
+            };
+
         </script>
     </div>
 </div>

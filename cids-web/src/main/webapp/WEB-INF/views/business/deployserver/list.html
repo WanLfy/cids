@@ -38,6 +38,12 @@
                                             class="glyphicon glyphicon-search"></i></a>
                                     <a class="a-btn green" onclick="table.doJumpUrl(saveUrl);">新增<i
                                             class="glyphicon glyphicon-plus"></i></a>
+                                    <a class="a-btn green" onclick="start_server();">启动<i
+                                            class="glyphicon glyphicon-play-circle"></i></a>
+                                    <a class="a-btn green" onclick="stop_server();">停止<i
+                                            class="glyphicon glyphicon-off"></i></a>
+                                    <a class="a-btn green" onclick="deploy_application();">部署<i
+                                            class="glyphicon glyphicon-sort"></i></a>
                                     <!--<a class="a-btn green" onclick="">导出EXCEL<i-->
                                     <!--class="glyphicon glyphicon-file"></i></a>-->
                                     <!--<a class="a-btn green" onclick="clickfun();">删除<i-->
@@ -68,12 +74,20 @@
 <script th:inline="javascript">
     var queryUrl = '/server/queryList.htm';
     var saveUrl = '/server/save.htm';
-
+    var startUrl = contextPath + '/server/start.htm';
+    var stopUrl = contextPath + '/server/stop.htm';
+    var checkUrl = contextPath + '/server/check.htm';
+    var deployUrl = contextPath + '/server/deploy.htm';
     $(function () {
 
         var columns = [
             // visible: false,switchable: false
             {checkbox: true},
+            {
+                title: '序号', formatter: function (value, row, index) {
+                    return "<span id='rowIndex" + row.serverId + "" + "'>" + (index + 1) + "</span>";
+                }
+            },
             {field: 'serverName', title: '服务器名称'},
             {field: 'storagePath', title: '部署路径'},
             {
@@ -90,14 +104,8 @@
                     }
                 }
             },
-            {field: 'createTimestamp', title: '创建时间', align: 'center'},
-            {
-                title: '操作', align: 'center', formatter: function (value, row, index) {
-                    return "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>启动</span></a> " +
-                        "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>停止</span></a> " +
-                        "<a class='a-btn-ope' href='javascript:void(0)' onclick='startBuild();'>部署</span></a>";
-                }
-            }
+
+            {field: 'createTimestamp', title: '创建时间', align: 'center'}
         ];
         //运行方法
         table.showDataTable('dataTables', queryUrl, columns, 'searchForm', true);
@@ -107,6 +115,187 @@
             console.debug(selectRecords);
         });
     });
+
+    function start_server() {
+        var row = table.isSelected()[0];
+        var msg = "是否启动服务器?";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    var index = $('#rowIndex' + row.serverId).text();
+                    var status = $('#dataTables tr:eq(' + index + ') td:eq(5)').text();
+                    //服务器启停状态
+                    if (status == '已启动') {
+                        showErrMessage('应用服务器已启动');
+                    } else {
+                        start_server_func(row, index);
+                    }
+                } else {
+                    return;
+                }
+            }
+        });
+    }
+
+    function start_server_func(row, index) {
+        $.ajax({
+            url: startUrl,
+            type: 'POST',
+            DataType: 'json',
+            data: {'id': row.serverId},
+            success: function (response) {
+                if (response.success && response.result == 'STARTUP') {
+                    var v_img = $("<img src='" + contextPath + "/assets/img/loading.gif'>");
+                    $('#dataTables tr:eq(' + index + ') td:eq(5)').text('启动中').append(v_img);
+                    setTimeout(function () {
+                        check_server_func(row, index);
+                    }, 1000)
+                } else {
+                    $('#dataTables tr:eq(' + index + ') td:eq(5)').text('启动出错');
+                }
+            }
+        });
+    }
+
+    function check_server_func(row, index) {
+        $.ajax({
+            url: checkUrl,
+            type: 'POST',
+            DataType: 'json',
+            data: {'id': row.serverId},
+            success: function (response) {
+                if (response.success) {
+                    if (response.result == 'ERROR') {
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('启动出错');
+                    } else if (response.result == 'FAILED') {
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('启动失败');
+                    } else if (response.result == 'STARTUP') {
+                        var v_img = $("<img src='" + contextPath + "/assets/img/loading.gif'>");
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('启动中').append(v_img);
+                        setTimeout(function () {
+                            check_server_func(row);
+                        }, 2000)
+                    } else if (response.result == 'STARTED') {
+                        $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('已启动');
+                    }
+                } else {
+                    $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('启动出错');
+                }
+            }
+        });
+    }
+
+    function stop_server() {
+        var row = table.isSelected()[0];
+        var msg = "是否停止服务器?";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    var index = $('#rowIndex' + row.serverId).text();
+                    var status = $('#dataTables tr:eq(' + index + ') td:eq(5)').text();
+                    //服务器启停状态
+                    if (status == '未启动') {
+                        showErrMessage('应用服务器未启动');
+                    } else {
+                        stop_server_func(row, index);
+                    }
+                } else {
+                    return;
+                }
+            }
+        });
+    }
+
+    function stop_server_func(row, index) {
+        $.ajax({
+            url: stopUrl,
+            type: 'POST',
+            DataType: 'json',
+            data: {'id': row.serverId},
+            success: function (response) {
+                if (response.success && response.result == 'STOPPED') {
+                    $('#dataTables tr:eq(' + index + ') td:eq(5)').text('未启动');
+                } else {
+                    $('#dataTables tr:eq(' + index + ') td:eq(5)').text('停止出错');
+                }
+            }
+        });
+    }
+
+    function deploy_application() {
+        var row = table.isSelected()[0];
+        var msg = "是否部署应用?";
+        bootbox.confirm({
+            message: msg,
+            buttons: {
+                confirm: {
+                    label: "确定"
+                },
+                cancel: {
+                    label: "取消"
+
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    var index = $('#rowIndex' + row.serverId).text();
+                    var status = $('#dataTables tr:eq(' + index + ') td:eq(5)').text();
+                    //服务器启停状态
+                    if (status != '未启动') {
+                        showErrMessage('服务器不是未启动状态,不能进行应用部署');
+                    } else {
+                        deploy_application_func(row, index);
+                    }
+                } else {
+                    return;
+                }
+            }
+        });
+    }
+
+    function deploy_application_func(row, index) {
+        $.ajax({
+            url: deployUrl,
+            type: 'POST',
+            DataType: 'json',
+            data: {'id': row.serverId},
+            beforeSend: function () {
+                var v_img = $("<img src='" + contextPath + "/assets/img/loading.gif'>");
+                $('#dataTables tr:eq(' + index + ') td:eq(5)').text('部署中')
+                    .append(v_img);
+            },
+            success: function (response) {
+                if (response.success) {
+                    showNoticeMessage(response.retMsg);
+                } else {
+                    showErrMessage(response.retMsg);
+                }
+            },
+            complete: function () {
+                $('#dataTables tr:eq(' + index + ') td:eq(5)').empty().text('未启动');
+            }
+        });
+    }
 
 </script>
 </html>

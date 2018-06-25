@@ -1,5 +1,6 @@
 package cn.edu.zzu.controller.business;
 
+import cn.edu.zzu.controller.Bean.BaseResult;
 import cn.edu.zzu.controller.Bean.Message;
 import cn.edu.zzu.controller.base.BaseController;
 import cn.edu.zzu.controller.business.formBean.ApplicationFormBean;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -84,5 +86,49 @@ public class ApplicationController extends BaseController {
             Message.setError(e.getMessage());
         }
         return queryPage(model);
+    }
+
+    /**
+     * 开始构建
+     *
+     * @param appName
+     * @return
+     */
+    @RequestMapping(value = "build.htm")
+    @ResponseBody
+    public BaseResult<String> build(@RequestParam("appName") String appName) {
+        BaseResult<String> result = new BaseResult<>();
+        try {
+            String buildRS = applicationService.build(appName);
+            result.setSuccess(true);
+            result.setRetMsg(buildRS);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setRetMsg(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 查询构建结果
+     *
+     * @param appName
+     * @return
+     */
+    @RequestMapping(value = "queryBuild.htm")
+    @ResponseBody
+    public BaseResult<String> queryBuild(@RequestParam("appName") String appName) {
+        BaseResult<String> result = new BaseResult<>();
+        try {
+            String buildRS = applicationService.queryBuild(appName);
+            result.setSuccess(true);
+            result.setRetMsg(buildRS);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setRetMsg(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
     }
 }

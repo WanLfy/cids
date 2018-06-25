@@ -18,6 +18,16 @@
         F_SERVER_ID,F_HOST_ID,F_APP_ID,F_SERVER_NAME,F_STORAGE_PATH,F_PROTOCOL,F_PORT,F_CONTEX_TPATH
     </sql>
 
+    <select id="queryByPK" resultMap="baseResultMap">
+        SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_DEPLOY_SERVER
+        <where>
+            <if test="id!=null and id!=''">
+                AND F_SERVER_ID=#{id}
+            </if>
+        </where>
+    </select>
+
     <!--查询-->
     <select id="query" resultMap="baseResultMap">
         SELECT<include refid="cols"/>,F_CREATE_TIMESTAMP

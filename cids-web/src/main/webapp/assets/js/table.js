@@ -153,5 +153,6 @@ var table = {
             bootbox.alert("请先选择记录");
             return;
         }
+        return records;
     }
 };

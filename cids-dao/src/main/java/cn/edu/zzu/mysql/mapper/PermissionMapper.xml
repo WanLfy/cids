@@ -42,4 +42,65 @@
             </if>
         </where>
     </select>
+
+
+    <select id="queryAll" resultMap="baseResultMap">
+        SELECT
+        <include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_PERMISSION
+    </select>
+
+    <!--分页查询-->
+    <select id="query" resultMap="baseResultMap">
+        SELECT
+        <include refid="cols"/>,F_CREATE_TIMESTAMP
+        FROM T_GP_PERMISSION
+        <where>
+            <if test="permissionName!=null and permissionName!=''">
+                AND F_PERMISSION_NAME like CONCAT('%',#{permissionName},'%')
+            </if>
+            <if test="permissionDesc!=null and permissionDesc!=''">
+                AND F_PERMISSION_DESC like CONCAT('%',#{permissionDesc},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_PERMISSION
+        <where>
+            <if test="permissionName!=null and permissionName!=''">
+                AND F_PERMISSION_NAME like CONCAT('%',#{permissionName},'%')
+            </if>
+            <if test="permissionDesc!=null and permissionDesc!=''">
+                AND F_PERMISSION_DESC like CONCAT('%',#{permissionDesc},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="cn.edu.zzu.mysql.pojo.Permission">
+        INSERT INTO T_GP_PERMISSION(F_PERMISSION_NAME,F_PERMISSION_DESC,F_PERMISSION_URL,F_PARENT_ID,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{permissionName,jdbcType=VARCHAR},
+        #{permissionDesc,jdbcType=VARCHAR},
+        #{permissionUrl,jdbcType=VARCHAR},
+        #{parentId,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+    <!--删除角色-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM T_GP_PERMISSION
+        WHERE F_PERMISSION_ID=#{permissionId}
+    </delete>
+    <!--删除关联表中role相关-->
+    <delete id="deleteRelation" parameterType="Integer">
+        DELETE FROM T_GP_ROLE_PERMISSION
+        WHERE F_PERMISSION_ID=#{permissionId}
+    </delete>
+    <select id="countPermissionRole" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_ROLE_PERMISSION
+        WHERE F_PERMISSION_ID=#{permissionId}
+    </select>
 </mapper>

@@ -39,4 +39,51 @@
             </if>
         </where>
     </select>
+    <!--分页查询-->
+    <select id="query" resultMap="baseResultMap">
+        SELECT F_USER_ID,F_LOGIN_NAME,F_REAL_NAME,F_STATUS,F_CREATE_TIMESTAMP
+        FROM T_GP_USER
+        <where>
+            <if test="loginName!=null and loginName!=''">
+                AND F_LOGIN_NAME like CONCAT('%',#{loginName},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM T_GP_USER
+        <where>
+            <if test="loginName!=null and loginName!=''">
+                AND F_LOGIN_NAME like CONCAT('%',#{loginName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增-->
+    <insert id="save" parameterType="cn.edu.zzu.mysql.pojo.User">
+        INSERT INTO T_GP_USER(<include refid="cols"/>,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{userId,jdbcType=VARCHAR},
+        #{loginName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{realName,jdbcType=VARCHAR},
+        #{status,jdbcType=CHAR},
+        now()
+        )
+    </insert>
+    <insert id="saveRelation">
+        INSERT INTO T_GP_USER_ROLE(F_USER_ID,F_ROLE_ID,F_CREATE_TIMESTAMP)
+        VALUES (
+        #{userId,jdbcType=VARCHAR},
+        #{roleId,jdbcType=VARCHAR},
+        now()
+        )
+    </insert>
+    <update id="update">
+        UPDATE T_GP_USER
+        SET F_STATUS=#{status}
+        WHERE F_USER_ID=#{userId}
+    </update>
+
 </mapper>

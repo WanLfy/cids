@@ -6,6 +6,7 @@ import cn.edu.zzu.mysql.pojo.Application;
 import cn.edu.zzu.service.IApplicationService;
 import cn.edu.zzu.service.IConfigService;
 import cn.edu.zzu.util.DateFormatUtil;
+import cn.edu.zzu.util.HttpConnectUtil;
 import cn.edu.zzu.util.JSchUtil;
 import cn.edu.zzu.util.JenkinsUtil;
 import com.offbytwo.jenkins.JenkinsServer;
@@ -82,15 +83,17 @@ public class ApplicationServiceImpl implements IApplicationService {
         String user = configService.getValue("jenkins_user");
         String pass = configService.getValue("jenkins_pass");
         List<Application> applicationList = applicationMapper.query(page);
+        //初始化util
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
         for (Application application : applicationList) {
-            //初始化util
-            JenkinsUtil util = new JenkinsUtil(url, user, pass);
             JobWithDetails jobDetails = util.getJobDetails(application.getAppName());
-            application.setBuildNum(jobDetails.getLastBuild().getNumber());
-            String strDate = DateFormatUtil.formatDateToString(new Date(jobDetails.getLastBuild().details().getTimestamp()), "yyyyMMdd");
-            application.setBuildDate(strDate);
-            application.setBuildResult(jobDetails.getLastBuild().details().getResult().toString());
-            application.setBuildInfoUrl(jobDetails.getLastBuild().getUrl() + "console");
+            if (jobDetails != null) {
+                application.setBuildNum(jobDetails.getLastBuild().getNumber());
+                String strDate = DateFormatUtil.formatDateToString(new Date(jobDetails.getLastBuild().details().getTimestamp()), "yyyyMMdd");
+                application.setBuildDate(strDate);
+                application.setBuildResult(jobDetails.getLastBuild().details().getResult().toString());
+                application.setBuildInfoUrl(jobDetails.getLastBuild().getUrl() + "console");
+            }
         }
         map.put("list", applicationList);
         map.put("size", applicationMapper.count(page));
@@ -108,5 +111,48 @@ public class ApplicationServiceImpl implements IApplicationService {
         //获取视图
         Map<String, View> viewsMap = util.getViews();
         return new ArrayList<>(viewsMap.keySet());
+    }
+
+    @Override
+    public String build(String appName) throws Exception {
+        String url = configService.getValue("jenkins_url");
+        String user = configService.getValue("jenkins_user");
+        String pass = configService.getValue("jenkins_pass");
+
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
+        Job job = util.getJob(appName);
+        job.build();
+        JobWithDetails details = util.getJobDetails(appName);
+        boolean isBuilding = details.getLastBuild().details().isBuilding();
+        if (isBuilding) {
+            return "BUILDING";
+        } else {
+            boolean isReBuilding = details.isInQueue();
+            if (isReBuilding) {
+                return "REBUILDING";
+            } else {
+                return details.getLastBuild().details().getResult().toString();
+            }
+        }
+    }
+
+    @Override
+    public String queryBuild(String appName) throws Exception {
+        String url = configService.getValue("jenkins_url");
+        String user = configService.getValue("jenkins_user");
+        String pass = configService.getValue("jenkins_pass");
+        JenkinsUtil util = new JenkinsUtil(url, user, pass);
+        JobWithDetails details = util.getJobDetails(appName);
+        boolean isBuilding = details.getLastBuild().details().isBuilding();
+        if (isBuilding) {
+            return "BUILDING";
+        } else {
+            boolean isReBuilding = details.isInQueue();
+            if (isReBuilding) {
+                return "REBUILDING";
+            } else {
+                return details.getLastBuild().details().getResult().toString();
+            }
+        }
     }
 }

@@ -20,4 +20,40 @@ public interface IDeployServerService {
     Map<String, String> hostSel() throws Exception;
 
     Map<String, String> appSel() throws Exception;
+
+    /**
+     * 启动服务器
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    String start(Integer id) throws Exception;
+
+    /**
+     * 停止服务器
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    String stop(Integer id) throws Exception;
+
+    /**
+     * 检查服务器启动结果
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    String check(Integer id) throws Exception;
+
+    /**
+     * 服务器部署应用
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    String deploy(Integer id) throws Exception;
 }

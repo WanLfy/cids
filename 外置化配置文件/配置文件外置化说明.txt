@@ -1,9 +1,9 @@
-1.将aml_config拷贝到 服务器 根目录,即可启动
+1.将cids_configs拷贝到 服务器 根目录,即可启动
 
 2.配置文件外置目录参见：
 	spring.xml,
 		属性bean:configProperties,
-			路径：file:${config.home.dir}/ssm_configs/
+			路径：file:${config.home.dir}/cids_configs/
 
 3.外置文件目录说明
 	ssm_configs\
@@ -12,3 +12,7 @@
 	|----other\
 	|----|---other.properties			--配置
     |----logback.xml                    --日志配置
+    |----shell\
+    |----|---check-ser.sh			    --检查脚本
+    |----|---start-ser.sh		        --启动脚本
+    |----|---stop-ser.sh		        --停止脚本

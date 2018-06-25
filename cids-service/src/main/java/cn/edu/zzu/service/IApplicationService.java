@@ -17,4 +17,8 @@ public interface IApplicationService {
     Map<String, Object> query(PageInfo page) throws Exception;
 
     List<String> getViewNames() throws Exception;
+
+    String build(String appName) throws Exception;
+
+    String queryBuild(String appName) throws Exception;
 }

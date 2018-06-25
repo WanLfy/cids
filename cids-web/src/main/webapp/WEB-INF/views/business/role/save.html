@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>新增页面</title>
+    <link th:include="/user/statics :: globalsource"/>
+</head>
+<body>
+<div class="page-right-container">
+    <div th:include="/common/message::message_body"></div>
+    <div class="row">
+        <div class="cat-container transition">
+            <div class="row">
+                <div class="portlet">
+                    <div class="portlet-title">
+                        <h4>新增</h4>
+                        <span class="glyphicon glyphicon-chevron-down float-right" data-toggle="collapse"
+                              data-target="#searchWrapper"></span>
+                    </div>
+
+                    <div class="portlet-body clearfix collapse in" id="searchWrapper">
+                        <form class="margin-space-top save-module" action="" id="dataForm"
+                              method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">权限</label>
+                                        <select class="form-input" name="permissionId" id="permissionId"
+                                                multiple="multiple">
+                                            <option th:each="vo,item:${permissionsMap}" th:text="${vo.value}"
+                                                    th:value="${vo.key}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">角色代码</label>
+                                        <input class="form-input" type="text" placeholder="" name="roleId"
+                                               id="roleId"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">角色名称</label>
+                                        <input class="form-input" type="text" placeholder="" name="roleName"
+                                               id="roleName"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-wrapper">
+                                        <label class="form-label">角色描述</label>
+                                        <input class="form-input" type="text" placeholder="" name="roleDesc"
+                                               id="roleDesc"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-wrapper">
+                                    <a class="a-btn green" onclick="save();" id="subbtn">提交 <i
+                                            class="fa fa-check"></i></a>
+                                    <a class="a-btn grey" onclick="history.go(-1)">返回 <i
+                                            class="fa fa-mail-reply"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+
+    $(function () {
+        $('#permissionId').multiselect({
+            nonSelectedText: '-- 请选择 --',
+        });
+        $("#dataForm").validate({
+            ignore: ':hidden',
+            rules: {
+                permissionId: 'required',
+                roleId: 'required',
+                roleName: 'required',
+                roleDesc: 'required'
+            }, messages: {
+                permissionId: '不能为空',
+                roleId: '不能为空',
+                roleName: '不能为空',
+                roleDesc: '不能为空'
+
+            }
+        });
+    });
+
+    /**
+     * 保存
+     */
+    function save() {
+        $('#dataForm').attr('action', contextPath + '/role/save.htm');
+        $('#dataForm').submit();
+    }
+</script>
+</html>
